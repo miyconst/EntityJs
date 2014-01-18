@@ -1,0 +1,194 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style type="text/css">
+        div.converter
+        {
+            overflow:auto;
+        }
+
+        div.converter .left-column,
+        div.converter .right-column
+        {
+            float:left;
+            width:50%;
+            padding:0px;
+            margin:0px;
+        }
+    </style>
+
+    <title>Css2Less</title>
+    <script src="@Url.Content("~/Scripts/linq.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.8.0.min.js")"></script>
+    <script src="@Url.Content("/Scripts/knockout-2.1.0.js")"></script>
+    <script src="@Url.Content("~/Scripts/css2less.js")"></script>
+
+    <script type="text/javascript">
+        var koModel = {
+            parameters: {
+                blockNewLine: ko.observable(true),
+                indentSymbol: ko.observable(" "),
+                indentSize: ko.observable(4),
+                selectorSeparator: ko.observable(",\n"),
+                blockSeparator: ko.observable("\n"),
+                updateColors: ko.observable(true),
+                vendorMixins: ko.observable(true)
+            },
+            indentSymbols: [{ name: "Space", value: " " }, { name: "Tab", value: "\t" }],
+            indentSizes: [{ name: "1", value: 1 }, { name: "2", value: 2 }, { name: "3", value: 3 }, { name: "4", value: 4 }, { name: "5", value: 5 }],
+            selectorSeparators: [{ name: "Comma", value: ", " }, { name: "Comma and new line", value: ",\n" }],
+            blockSeparators: [{ name: "None", value: "" }, { name: "New line", value: "\n" }],
+            css: ko.observable(""),
+            less: ko.observable("")
+        };
+
+        function initFileDrop(koModel) {
+            var txt = $("#txtInput").get(0);
+
+            txt.addEventListener("dragenter", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }, false);
+            txt.addEventListener("dragexit", function () { }, false);
+            txt.addEventListener("dragover", function () { }, false);
+            txt.addEventListener("drop", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                var files = e.dataTransfer.files;
+                var count = files.length;
+
+                if (count > 0) {
+                    var file = files[0];
+
+                    if (!/.*[.]css$/gi.test(file.name)) {
+                        alert("Choose valid css file!");
+                        return;
+                    }
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        koModel.css(e.target.result);
+                    };
+                    reader.readAsText(file);
+                }
+            }, false);
+        }
+
+        $(function () {
+            koModel.convert = function () {
+                var options = {};
+
+                for (var i in koModel.parameters) {
+                    options[i] = koModel.parameters[i]();
+                }
+
+                var css = koModel.css();
+                var converter = new css2less(css, options);
+                converter.processLess();
+                var less = converter.less;
+                koModel.less(less);
+            };
+
+            koModel.css($("#scrStyle").html());
+
+            if (window.File && window.FileList && window.FileReader) {
+                initFileDrop(koModel);
+            }
+
+            ko.applyBindings(koModel);
+        });
+    </script>
+</head>
+<body>
+    <script type="text/html" id="scrStyle">a
+{
+    color:green;
+    text-decoration:none;
+}
+
+a:hover
+{
+    color:lime;
+}
+
+a:active
+{
+    text-decoration:underline;
+}
+    </script>
+    <div class="converter">
+        <h2>
+            Convert old ugly css into new fresh less with css2less.js
+        </h2>
+        <fieldset class="params">
+            <legend>
+                Parameters
+            </legend>
+            <div class="control-box">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: $root.parameters.blockNewLine" />
+                    <span>Start block from new line</span>
+                </label>
+            </div>
+            <div class="contol-box">
+                <label>
+                    Indent symbol
+                </label>
+                <select data-bind="options: $root.indentSymbols, optionsText: 'name', optionsValue: 'value', value: $root.parameters.indentSymbol"></select>
+            </div>
+            <div class="contol-box">
+                <label>
+                    Indent size
+                </label>
+                <select data-bind="options: $root.indentSizes, optionsText: 'name', optionsValue: 'value', value: $root.parameters.indentSize"></select>
+            </div>
+            <div class="contol-box">
+                <label>
+                    Selector separator
+                </label>
+                <select data-bind="options: $root.selectorSeparators, optionsText: 'name', optionsValue: 'value', value: $root.parameters.selectorSeparator"></select>
+            </div>
+            <div class="contol-box">
+                <label>
+                    Separator between blocks
+                </label>
+                <select data-bind="options: $root.blockSeparators, optionsText: 'name', optionsValue: 'value', value: $root.parameters.blockSeparator"></select>
+            </div>
+            <div class="control-box">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: $root.parameters.updateColors" />
+                    <span>Use variables for colors</span>
+                </label>
+            </div>
+            <div class="control-box">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: $root.parameters.vendorMixins" />
+                    <span>Create function for vendor styles</span>
+                </label>
+            </div>
+            <div>
+                <button class="" id="btnConvert" data-bind="click: $root.convert">Convert</button>
+            </div>
+        </fieldset>
+        <div class="left-column">
+            <p>
+                Input your old css here
+            </p>
+            <textarea rows="30" cols="100" id="txtInput" data-bind="value: $root.css"></textarea>
+        </div>
+        <div class="right-column">
+            <p>
+                Take your new less here
+            </p>
+            <textarea rows="30" cols="100" id="txtOutput" data-bind="value: $root.less"></textarea>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript">
+    var koModel = {
+        newCategory: ko.obs(""),
+        filter: {
+            categoryID: ko.obs(""),
+            name: ko.obs(""),
+            date: ko.obs(""),
+            nameLength: ko.obs("")
+        }
+    };
+
+    $(function () {
+        var model = new ejs.model({
+            sets: [
+                {
+                    name: "products",
+                    properties: ["categoryID", "name", "fullName", "price", "date", "maxCategoryID"],
+                    belongs: [{ name: "category"}]
+                },
+                {
+                    name: "categories",
+                    properties: ["name"],
+                    hasMany: [{ name: "products"}]
+                }
+            ]
+        });
+
+        model.categories.load(function () { });
+
+        model.events.koCreated.attach(function (e) {
+            if (e.className == "_product") {
+                e.ko.include("category");
+            };
+
+            if (e.className == "category") {
+                e.ko.include("products");
+            };
+        });
+
+        koModel.update = function () {
+            model.update();
+        };
+
+        var pager = new ejs.remotePager({
+            model: model,
+            set: model.products,
+            pageSize: 5,
+            //whereMethod: "Products.Length",
+            filters: [{
+                property: "categoryID",
+                value: koModel.filter.categoryID,
+                type: "number",
+                condition: "="
+            }, {
+                property: "CategoryFullName",
+                value: function () {
+                    var v = koModel.filter.name();
+
+                    if (!v) {
+                        return v;
+                    }
+
+                    v = "%" + v + "%";
+
+                    return v;
+                },
+                type: "string",
+                condition: "like"
+            }, {
+                //property: "nameLength",
+                property: "MaxCategoryID",
+                value: koModel.filter.nameLength,
+                type: "number"
+            }, {
+                property: "date",
+                value: koModel.filter.date,
+                type: "date"
+            }]
+        });
+
+        pager.orderBy("name");
+        pager.goTo(0);
+
+        koModel.pages = pager.pages;
+        koModel.pager = pager;
+        koModel.products = model.products.toKo();
+        koModel.categories = model.categories.toKo();
+
+        ko.applyBindings(koModel);
+    });
+</script>
+<script type="text/html" id="trProduct">
+    <tr>
+        <td>
+            <span data-bind="text: id"></span>
+        </td>
+        <td>
+            <span data-bind="text: categoryID"></span>
+            
+        </td>
+        <td>
+            <select data-bind="value: categoryID, options: koModel.categories, optionsText: 'name', optionsValue: 'id' "></select>
+        </td>
+        <td>
+            <input type="text" data-bind="value: name" />
+        </td>
+        <td>
+            <input type="text" data-bind="value: fullName" />
+        </td>
+        <td>
+            <input type="text" data-bind="value: price" />
+        </td>
+        <td>
+            <input type="text" data-bind="value: date" />
+        </td>
+        <td>
+            <input type="text" data-bind="value: maxCategoryID" />
+        </td>
+    </tr>
+</script>
+<fieldset>
+    <legend>
+        Filter
+    </legend>
+    <select data-bind="value: $root.filter.categoryID, options: koModel.categories, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Category'"></select>
+    <input type="text" placeholder="Name" data-bind="value: $root.filter.name" />
+    <input type="text" placeholder="Name length" data-bind="value: $root.filter.nameLength" />
+    <input type="text" placeholder="Date" data-bind="value: $root.filter.date, datepicker: true" />
+    <button data-bind="click: $root.pager.refresh">Search</button>
+</fieldset>
+<table>
+    <thead>
+        <tr>
+            <th data-bind="click: function() { $root.pager.order('ID'); }">ID</th>
+            <th data-bind="click: function() { $root.pager.order('CategoryID'); }">CategoryID</th>
+            <th data-bind="click: function() { $root.pager.order('Category.Name'); }">Category</th>
+            <th data-bind="click: function() { $root.pager.order('Name'); }">Name</th>
+            <th data-bind="click: function() { $root.pager.order('FullName'); }">Full Name</th>
+            <th data-bind="click: function() { $root.pager.order('Price'); }">Price</th>
+            <th data-bind="click: function() { $root.pager.order('Date'); }">Date</th>
+            <th data-bind="click: function() { $root.pager.order('MaxCategoryID'); }">maxCategoryID</th>
+        </tr>
+    </thead>
+    <tbody data-bind="template: { name: 'trProduct', foreach: koModel.products }"></tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8">
+                <div data-bind="foreach: $root.pages">
+                    <a href="javascript:" data-bind="html: text, click: go, css: { bold: selected }"></a>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<input type="button" data-bind="click: koModel.update" value="Save" />

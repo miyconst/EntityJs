@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @{
+        Random rand = new Random();
+    }
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/themes/base/jquery.ui.all.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ejs.grid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ejs.scale.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.8.0.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.ru.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.23.full.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.ui.timepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/knockout-2.1.0.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/linq.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/main.js")" type="text/javascript"></script>*@
+
+    <script src="@Url.Content("~/Scripts/EntityJs/jq.js?v=" + rand.Next(0))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/ko.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/core.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/model.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/set.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/entity.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/pager.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/crud.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/grid.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/scale.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/calendar.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+</head>
+<body>
+    @RenderBody()
+    <script type="text/html" id="scrData">
+        @MvcHtmlString.Create(ViewBag.Data)
+    </script>
+</body>
+</html>

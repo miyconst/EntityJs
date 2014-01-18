@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "EntityJs - server side";
+}
+
+<ul id="menu">
+    <li>
+        <a href="@Url.Content("~/")">Home</a>
+    </li>
+    <li>
+        <span>-></span>
+    </li>
+    <li>
+        <a href="@Url.Content("~/Home/Index/ServerSide")">Server side</a>
+    </li>
+</ul>
+<h1>EntityJs - Server side</h1>
+<p>
+    Server side of EntityJs contains these parts:
+</p>
+<ul>
+    <li>
+        <a href="#hDataController">DataController</a>
+        <span>- user define asp.net mvc controller which has to be inherited from EntityJs.Client.DataControllerBase</span>
+    </li>
+    <li>
+        <a href="#hJsModel">JsModel</a>
+        <span>- user define class which has to be inherited from EntityJs.Client.&lt;ObjectContext&gt;</span>
+    </li>
+    <li>
+        <a href="#hIEntity">IEntity</a>
+        <span>- EntityJs.Client.Objects.IEntity interface. Entity classes have to implement it</span>
+    </li>
+</ul>
+<h2 id="hDataController">DataController</h2>
+<p>
+    <b>EntityJs.Client.DataControllerBase</b> is responsible for EntityJs client side requests such as Select/Update/Delete.
+    <br />
+    It is an abstract class, you have to create a DataController which implements DataControllerBase in each project you want to use EntityJs.
+    <br />
+    DataController is default and recommended name, but you are free to use any other name. In this case you have to change client side settings.
+    <br />
+</p>
+<p>
+    <b>EntityJs.Client.DataControllerBase</b> has some abstract methods which has to be implemented.
+</p>
+<ul>
+    <li>
+        <b>SaveUserSettings</b> - used by ejs.grid to save columns size and position.
+    </li>
+    <li>
+        <b>DownloadFile</b> - used by ejs.grid column with type "file".
+    </li>
+    <li>
+        <b>UploadFile</b> - used by ejs.grid column with type "file".
+    </li>
+    <li>
+        <b>CreateModel</b> - method required for the proper functionality. It has to return an instance of user defined <a href="#hJsModel">JsModel</a>.
+    </li>
+</ul>
+<h2 id="hJsModel">JsModel</h2>
+<p>
+    <b>JsModel</b> is a user defined class. The class has to be inherited from EntityJs.Client.&lt;ObjectContext&gt;.
+</p>
+<p>
+    It is not safe to accept sql queries from the client therefore only simple operations and values are available.
+    <br />
+    But in real application we need custom ordering or sorting very often. JsModel can be used for that purpose.
+    <br />
+    You can create a set of custom filter and order methods but filling up <b>JsModel.WhereMethods</b> and <b>JsModel.OrderMethods</b> lists.
+</p>
+<p>
+    You also can define property override instead of writing custom filter/order methods.
+    <br />
+    Use <b>JsModel.GetWhereParameter</b> and <b>JsModel.GetOrderParameter</b> methods.
+    <br />
+    For example we want to sort Customers by number of Orders. 
+    <br />
+    Overriding method <b>JsModel.GetOrderParameter</b> to replace <i>Customer.OrdersCount</i> by <i>Customer.Orders.Count()</i>
+    <br />
+    allows us to use <i>OrdersCount</i> in <i>ejs.grid</i> as sorting column.
+</p>
+<h2 id="hIEntity">IEntity</h2>
+<p>
+    Each Entity Framework model class has to implement <b>EntityJs.Client.Objects.IEntity</b> interface before using with EntityJs.
+    <br />
+    It is recommended to create folder <i>Models/Partials</i> and create partial class for every IEntity implementation.
+</p>
+<p>
+    List of IEntity methods:
+</p>
+<ul>
+    <li>
+        <b>ToJson</b>
+        <span>- returns object of anonymous type with all of the Entity values.</span>
+        <span>Some custom values may be added as well.</span>
+    </li>
+    <li>
+        <b>OnCheckPermissions</b>
+        <span>- fires before any operation with Entity processed. Can be cancelled or confirmed by setting property <b>Cancel</b> of <b>EntitJs.Client.Events.CheckPermissionsEventArgs e</b> parameter.</span>
+        <br />
+        <span>All of the operations are not allowed by default. You have to check that current user has permissions to perform current operation and set <b>e.Cancel = false</b>.</span> 
+    </li>
+    <li>
+        <b>OnSelecting</b>
+        <span>- fires after existing entity has been extracted from EntityModel.</span>
+    </li>
+    <li>
+        <b>OnInserting</b>
+        <span>- fires after new entity created and its values populated, but before entity added to EntityModel's collection.</span>
+    </li>
+    <li>
+        <b>OnUpdating</b>
+        <span>- fires after existing entity extracted from EntityModel, but before values populated.</span>
+    </li>
+    <li>
+        <b>OnDeleting</b>
+        <span>- fires after existing entity extracted from EntityModel, but before deleted.</span>
+    </li>
+    <li>
+        <b>OnSelected</b>
+        <span>- fires after existing entity extracted and added to result collection.</span>
+    </li>
+    <li>
+        <b>OnInserted</b>
+        <span>- fires after new entity created, values populated and added to EntityModel's collection.</span>
+    </li>
+    <li>
+        <b>OnUpdated</b>
+        <span>- fires after existing entity's values populated.</span>
+    </li>
+    <li>
+        <b>OnDeleted</b>
+        <span>- fires after existing entity deleted.</span>
+    </li>
+</ul>
+<p>
+    <b>Note</b>: all of the IEntity events fires before changes saved. 
+    <br />
+    EntityModel saves changes in one transaction, therefore error in an entity will couse cancel of all changes.
+</p>

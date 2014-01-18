@@ -1,0 +1,647 @@
+﻿@{
+    ViewBag.Title = "EntityJs - client side";
+}
+
+<ul id="menu">
+    <li>
+        <a href="@Url.Content("~/")">Home</a>
+    </li>
+    <li>
+        <span>-></span>
+    </li>
+    <li>
+        <a href="@Url.Content("~/Home/Index/ClientSide")">Client side</a>
+    </li>
+</ul>
+<h1>EntityJs - Client side</h1>
+<p>
+    EntityJs client side depends on <b>jQuery</b>, <b>jQuery.validate</b>, <b>jQuery.ui</b>, <b>knockout.js</b>.
+    <br />
+    ejs.model requires jQuery only, others needed for GUI.
+</p>
+<p>
+    Client side of EntityJs contains these parts:
+</p>
+<ul>
+    <li>
+        <a href="#hjq.js">linq.js</a>
+        <span>- linq for JavaScript.</span>
+    </li>
+    <li>
+        <a href="#hjq.js">jq.js</a>
+        <span>- jquery extensions.</span>
+    </li>
+    <li>
+        <a href="#hko.js">ko.js</a>
+        <span>- knockout extensions and bindings. Analogue of Entity Model's class.</span>
+    </li>
+    <li>
+        <a href="#hentity.js">entity.js</a>
+        <span>- ejs.entity class.</span>
+    </li>
+    <li>
+        <a href="#hset.js">set.js</a>
+        <span>- ejs.set class. Analogue of Entity Model's collection.</span>
+    </li>
+    <li>
+        <a href="#hmodel.js">model.js</a>
+        <span>- ejs.model class. Analogue of Entity Model.</span>
+    </li>
+    <li>
+        <a href="#hpager.js">pager.js</a>
+        <span>- ejs.remotePager class. Provides easy server side pagination including ordering and filtering.</span>
+    </li>
+    <li>
+        <a href="#hgrid.js">grid.js</a>
+        <span>- ejs.grid class. Uses ejs.remotePager to display data in data grid. Requries a lot of settings and html, almost not used alone.</span>
+        <br />
+        <small>required knockout.js</small>
+    </li>
+    <li>
+        <a href="#hcrud.js">crud.js</a>
+        <span>- ejs.crud class. A smart wrapper for ejs.grid. Generates all required html and parameters.</span>
+        <br />
+        <small>required knockout.js</small>
+    </li>
+</ul>
+<h2 id="hlinq.js">linq.js</h2>
+<p>
+    Set of all linq methods defined via Array.prototype. Lambda syntax is supported via strings. 
+    <br />
+    For example var colors = ["red", "green", ""]; colors = colors.where("val=>val");
+    <br />
+    linq.js is a standalone JavaScript library which was written by me long time before EntityJs.
+</p>
+<h2 id="hjq.js">jq.js</h2>
+<p>
+    File contains some of useful javascript and jquery methods.
+    <br />
+    List of most usefult methods:
+</p>
+<ul>
+    <li>parseBool</li>
+    <li>isMvcDate</li>
+    <li>addTimeZone</li>
+    <li>parseMvcDate</li>
+    <li>parseDate</li>
+    <li>parseDateTime</li>
+    <li>String.prototype.toUpperCaseFirst and String.prototype.toLowerCaseFirst</li>
+    <li>
+        Date.prototype.toShortDateString - requires jquery.ui.datepicker.
+        <br />
+        And its alias Date.prototype.toSds.
+    </li>
+    <li>Date.prototype.dateDiff</li>
+    <li>
+        Date.prototype.toShortTimeString - required jquery.io.datepicker.
+        <br />
+        And its alias Date.prototype.toSts.
+    </li>
+    <li>RegExp.escape</li>
+    <li>$.rjson - calls $.ajax in json format.</li>
+</ul>
+<h2 id="hko.js">ko.js</h2>
+<p>
+    File contains knockout aliases and bindings. Not required if you don't use knockout.js.
+    <br />
+    List of most useful methods:
+</p>
+<ul>
+    <li>ko.obs = ko.observable</li>
+    <li>ko.obsa = ko.observableArray</li>
+    <li>ko.apply = ko.applyBindings</li>
+    <li>ko.cmp = ko.computed</li>
+    <li>ko.isObs = ko.isObservable</li>
+    <li>ko.likeobs - value automatically transforms to empty string when empty/null or to %value% when some value exists.</li>
+    <li>ko.dobs - value automatically transforms to decimal.</li>
+    <li>ko.toDobs - adds text property to an observable. obs.text = ejs.toDs(obs())</li>
+    <li>ko.bindingHandlers.datepicker - jquery.ui.datepicker required</li>
+    <li>ko.bindingHandlers.timepicker - jquery.timepicker required</li>
+    <li>ko.bindingHandlers.datetimepicker - jquery.ui.datepicker and jquery.timepicker required</li>
+    <li>ko.bindingHandlers.colorpicker - jquery.colorpicker required</li>
+    <li>ko.bindingHandlers.validate - jquery.validate required</li>
+    <li>ko.bindingHandlers.tabs - jquery.ui.tabs required</li>
+    <li>ko.bindingHandlers.simpleAutocomplete - jquery.ui.autocomplete required</li>
+    <li>ko.bindingHandlers.autocomplete - jquery.ui.autocomplete required</li>
+</ul>
+<h2 id="hentity.js">entity.js</h2>
+<p>
+    The ejs.entity class is an abstract class. All of the ejs.model entities inherit ejs.entity class and generated automatically by ejs.model.
+    <br />
+    EntityJs uses ejs.entity only inside ejs.model's ejs.sets, but if you like you can use it alone.
+    <br />
+    List of most useful methods of ejs.entity class:
+</p>
+<ul>
+    <li>
+        <b>parse</b> - populates entity's values.
+        <br />
+        Method will set entity no-changes and not-removed state.
+    </li>
+    <li>
+        <b>serialize</b> - returns array of { Key: "ColumnName", Value: "ColumnValue" } objects.
+        <br />
+        Returns only changed values and ID.
+        <br />
+        Column names will be converted to server style. name -> Name, id -> ID.
+    </li>
+    <li>
+        <b>deserialize</b> - populates entity's valuse from Key/Value array;
+    </li>
+    <li>
+        <b>eImport</b> - returns object with values. For example { ID: 1, Name: "John", Surname: "Smith" };
+        <br />
+        Returns all of the values.
+    </li>
+    <li>
+        <b>eExport</b> - populates entity's values from values object;
+        <br />
+        Column names may be in server style.
+    </li>
+    <li>
+        <b>getValues</b> - returns values object.
+        <br />
+        Column names will not be converted to server style.
+    </li>
+    <li>
+        <b>setValues</b> - populates entity's values from values object.
+        <br />
+        Column names should be in client style.
+    </li>
+    <li>
+        <b>copy</b> - copies all of the values except ID to another entity. Entity of the same type has to be provided.
+    </li>
+    <li>
+        <b>toKo</b> - returns object with ko.obs for each property.
+        <br />
+        The properties of entity and entityKo are mutually related.
+        <br />
+        entity.name("New name here") will change entityKo.name and vice-versa.
+    </li>
+    <li>
+        <b>remove</b> - marks entity as removed. It will be completelly removed from ejs.set and ejs.model when changes saved.
+    </li>
+    <li>
+        <b>renew</b> - restores removed, but not saved entity.
+    </li>
+    <li>
+        <b>backup</b> - begins entity transaction. Entity won't get status "modified" till transaction commited.
+    </li>
+    <li>
+        <b>restore</b> - rolls back changes made in entity transaction started by backup method.
+    </li>
+    <li>
+        <b>commit</b> - commits entity transaction started by back method.
+    </li>
+    <li>
+        <b>isLocked</b> - returns true if entity transaction started, otherwise returns false.
+    </li>
+    <li>
+        <b>detach</b> - detaches entity from ejs.set and ejs.model. If changes exists they will be ignored.
+    </li>
+    <li>
+        <b>reattach</b> - re attaches detached entity.
+    </li>
+    <li>
+        <b>dispose</b> - detaches entity from ejs.set and ejs.model. Disposes all of the event handlers and ko.obs. Can't be restored.
+    </li>
+</ul>
+<p>
+    List of ejs.entity events:
+</p>
+<ul>
+    <li>
+        <b>events.remove</b> - fires when entity being removed.
+    </li>
+    <li>
+        <b>events.renew</b> - fires when entity being renewed.
+    </li>
+    <li>
+        <b>events.change</b> - fires when any propery of entity being changed.
+    </li>
+    <li>
+        <b>events.commit</b> - fires when entity transaction being commited.
+    </li>
+    <li>
+        <b>events.detach</b> - fires when entity being detached.
+    </li>
+    <li>
+        <b>events.reattach</b> - fires when entity being reattached.
+    </li>
+    <li>
+        <b>events.koCreated</b> - fires when entityKo object created.
+        <br />
+        The even is useful when some custom values needed.
+        <br />
+        For example OrderItem { Price, Count } needs Amount property. It can be implemented with ko.cmp;
+        <br />
+        entity.events.koCreated.attach(function (e) { e.ko.amount = ko.cmp(function() { return e.ko.price() * e.ko.count(); }) });
+    </li>
+    <li>
+        <b>events.dispose</b> - fires when entity being disposed.
+    </li>
+</ul>
+<h2 id="hset.js">set.js</h2>
+<p>
+    The ejs.set class is an abstract class. All of the ejs.model sets inherit ejs.set class and generated automatically by ejs.model.
+    <br />
+    EntityJs uses ejs.set only inside ejs.model, but if you like you can use it alone.
+    <br />
+    List of most useful methods of ejs.set class:
+</p>
+<ul>
+    <li>
+        <b>refreshData</b> - disposes all of the old entities and adds new.
+    </li>
+    <li>
+        <b>addData</b> - keeps the old entities and adds new.
+    </li>
+    <li>
+        <b>load</b> - returns all of the entities if callback not provided. Sends request to the server for entities if callback provided.
+    </li>
+    <li>
+        <b>select</b> - selects entities from server.
+    </li>
+    <li>
+        <b>getByID</b> - returns an entity by it's ID.
+    </li>
+    <li>
+        <b>create</b> - creates, attaches and returns new instance of current ejs.entity.
+    </li>
+</ul>
+<h2 id="hmodel.js">model.js</h2>
+<p>
+    ejs.model is the main class of EntityJs. It contains ejs.sets, ejs.entities and does all of the client-server operations.
+    <br />
+    ejs.model is initialized by parameters and generates ejs.entity/ejs.set classes.
+    <br />
+    After initialization all of the sets are available via its names.
+    <br />
+    ejs.model constructor acceps an object as parameter.
+    <br />
+    List of most usefult ejs.model parameters:
+</p>
+<ul>
+    <li>
+        <a href="#hejs.model-sets">sets</a> - array of ejs.set initial parameters.
+    </li>
+    <li>
+        <b>selectUrl</b> - string, server url to select data. <b>Data/Select</b> is default value.
+    </li>
+    <li>
+        <b>updateUrl</b> - string, server url to update data. <b>Data/Update</b> is default value.
+    </li>
+    <li>
+        <b>preventDataLost</b> - bool. If true then warns user of unsaved data on leave. True by default.
+    </li>
+    <li>
+        <b>autoUpdate</b> - bool. Updates changes automatically after entity commited. False by default.
+    </li>
+</ul>
+<h3 id="hejs.model-sets">ejs.model -> sets parameter</h3>
+<p>
+    sets is the most importans parameter of ejs.model. Sets can't be changed after ejs.model is created.
+    <br />
+    List of most usefult set parameters:
+</p>
+<ul>
+    <li>
+        <b>name</b> - string, name of the ejs.set collection, has to be the same as Entity Model's collection name, but in js code style. 
+        <br />
+        For example Entity Model's Customers became customers.
+    </li>
+    <li>
+        <b>className</b> - string, name of the ejs.set class, has to be the same as Entity Model's class name, but in js code style. 
+        <br />
+        For example Entity Model's Custom became customer.
+        <br />
+        This parameter is not required and will be set to ejs.toSingular(name) if blank;
+    </li>
+    <li>
+        <a href="#hejs.model-sets-properties">properties</a> - array of properties (columns).
+    </li>
+    <li>
+        <a href="#hejs.model-sets-belongs">belongs</a> - array of belongs to relations.
+    </li>
+    <li>
+        <a href="#hejs.model-sets-hasMany">hasMany</a> - array of hasMany relations.
+    </li>
+</ul>
+<h3 id="hejs.model-sets-properties">
+    ejs.model -> sets -> properties parameter
+</h3>
+<p>
+    properties is the most important parameter of ejs.set. 
+    <br />
+    Properties in ejs.entity are typeless and may contain value of any type.
+    <br />
+    properties array is a simple string[] array with property (column) names.
+    <br />
+    Example: ["login", "password", "name", "surname"];
+    <br />
+    <b>Note:</b> property id is required for each ejs.set, and will be added automatically if not provided in properties array.
+</p>
+<h3 id="hejs.model-sets-belongs">
+    ejs.model -> sets -> belongs parameter
+</h3>
+<p>
+    belongs is a not required parameter which specifies foreign key relations and may be useful in <a href="#hmodel.js">ejs.grid</a>.
+    <br />
+    List of belongs' parameters:
+</p>
+<ul>
+    <li>
+        <b>name</b> - name of the navigation property. It is highly recommended to use the same name as in Entity Model.
+    </li>
+    <li>
+        <b>setName</b> - name of foreign ejs.set to relate with.
+        <br />
+        Not required, will be set to ejs.toPlural(name) if empty;
+    </li>
+    <li>
+        <b>fkProperty</b> - foreign key property name.
+        <br />
+        Not required, will be set to name + "ID" if empty;
+    </li>
+</ul>
+<p>
+    <b>Note:</b> you can pass string value if setName and fkProperty are not provided.
+    <br />
+    Example: 
+    <br />
+    belongs: ["type", { name: "customerStatus", fkProperty: "statusID" }] 
+    <br />
+    will be interpreted as 
+    <br />
+    belongs: [{ name: "type", setName: "types", fkProperty: "typeID" }, { name: "customerStatus", setName: "customerStatuses", fkProperty: "statusID" }];
+    <br />
+    <b>Important!</b> It is not recommended to create a lot of relations or relations between huge tables as it impacts on performance.
+</p>
+<h3 id="hejs.model-sets-hasMany">
+    ejs.model -> sets -> hasMany paprameter
+</h3>
+<p>
+    hasMany parameter is similar to belongs and works in upside direction.
+    <br />
+    You may pass name as string instead of object, the same as for hasMany.
+    <br />
+    List of hasMany parameters:
+</p>
+<ul>
+    <li>
+        <b>name</b> - name of the navigation property. It is highly recommended to use the same name as in Entity Model.
+    </li>
+    <li>
+        <b>className</b> - name of child ejs.set to relate with.
+        <br />
+        Not required, will be set to ejs.toSingular(name) if empty;
+    </li>
+    <li>
+        <b>fkProperty</b> - foreign key property name.
+        <br />
+        Not required, will be set to className + "ID" if empty.
+    </li>
+</ul>
+<p>
+    <b>Note:</b> belongs and hasMany works with primary key (id) only.
+    <br />
+    hasMany doesn't create belongs in children table.
+    <br />
+    belongs doesn't create hasMany in foreign table.
+</p>
+<p>
+    List of most usefult ejs.model methods:
+</p>
+<ul>
+    <li>
+        <b>refreshData</b> - calls refreshData for each set provided.
+    </li>
+    <li>
+        <b>toKo</b> - accepts koModel as parameter and adds ko.observableArray for each set.
+    </li>
+    <li>
+        <b>cancelChanges</b> - cancels all of the changes made. Detached entities ignored.
+    </li>
+    <li>
+        <b>clearChanges</b> - clears, but not cancels changes. Detached entities ignored.
+    </li>
+    <li>
+        <b>hasChanges</b> - returns true if some changes were made, false otherwise.
+    </li>
+    <li>
+        <b>select</b> - selects data from 
+    </li>
+    <li>
+        <b>update</b> - saves changes.
+    </li>
+</ul>
+<p>
+    List of most usefult ejs.model events:
+</p>
+<ul>
+    <li>
+        <b>events.remove</b> - fires before an entity being removed.
+    </li>
+    <li>
+        <b>removed</b> - fires after an entity has been removed.
+    </li>
+    <li>
+        <b>change</b> - fires before an entity being removed.
+    </li>
+    <li>
+        <b>changed</b> - fires after an entity has been changed.
+    </li>
+    <li>
+        <b>koCreated</b> - fires after an entity's ko object has been created.
+    </li>
+    <li>
+        <b>update</b> - fires before changes being saved.
+    </li>
+    <li>
+        <b>updated</b> - fires after changes have been saved.
+    </li>
+</ul>
+<h2 id="hpager.js">pager.js</h2>
+<p>
+    ejs.remotePager is used for remote pagination, ordering and filtering.
+    The class is used inside ejs.grid and ejs.crud. Almost never used standalone.
+    <br />
+    Most usefult methods of ejs.remotePager:
+</p>
+<ul>
+    <li>
+        <b>goTo</b> - goes to page specified.
+    </li>
+    <li>
+        <b>refresh</b> - refreshes data.
+    </li>
+    <li>
+        <b>next</b> - goes to the next page.
+    </li>
+    <li>
+        <b>previous</b> - goes to previous page.
+    </li>
+</ul>
+<p>
+    List of ejs.remotePager events:
+</p>
+<ul>
+    <li>
+        <b>events.pageChanging</b> - fires before page being changed.
+    </li>
+    <li>
+        <b>pageChanged</b> - fires after page has been changed.
+    </li>
+</ul>
+<h2 id="hgrid.js">grid.js</h2>
+<p>
+    grid.js is a complicated JavaScript class which is used for html data table with column moving and resizing.
+    <br />
+    Documentation is coming later.
+</p>
+<h2 id="hcrud.js">crud.js</h2>
+<p>
+    ejs.crud is the central class of ejs GUI. The class is init
+    <br />
+    ejs.crud is initialized by parameters and generates necessary html and JavaScript for ejs.grid.
+    List of most useful ejs.crud parameters:
+</p>
+<ul>
+    <li>
+        <b>koModel</b> - object, required. Must be used as knockout binding model.
+    </li>
+    <li>
+        <b>model</b> - ejs.model, required.
+    </li>
+    <li>
+        <b>set</b> - ejs.set, required.
+    </li>
+    <li>
+        <b>gridSettingsName</b> - string, required. Name of column size and position settings when saved to server.
+    </li>
+    <li>
+        <b>gridColumnsSettings</b> - object. Previously saved settings.
+    </li>
+    <li>
+        <b>gridPadding</b> - int, required. Padding in html grid cells.
+    </li>
+    <li>
+        <b>gridFilter</b> - bool. Whether or not use in-grid filter. False by default.
+    </li>
+    <li>
+        <b>container</b> - jQuery DOM element. Grid will fill up the height of element, if provided.
+    </li>
+    <li>
+        <b>create</b> - bool. Whether or not allow use to create new rows. False by default.
+    </li>
+    <li>
+        <b>edit</b> - bool. Whether or not allow user to edit rows. False by default.
+    </li>
+    <li>
+        <b>remove</b> - bool. Whether or not allow user to remove rows. False by default.
+    </li>
+    <li>
+        <b>autoSave</b> - bool. Whether or not automatically save changes. True by default.
+    </li>
+    <li>
+        <b>pageSize</b> - int, required. Size of grid page.
+    </li>
+    <li>
+        <b>pure</b> - bool. Whether or not use ejs.grid. Outdated and will be removed soon. Has to be set to true, but false by default.
+    </li>
+    <li>
+        <a href="#hejs.crud-properties-columns">columns</a> - array of columns.
+    </li>
+</ul>
+<h3 id="hejs.crud-properties-columns">ejs.crud -> properties -> columns</h3>
+<p>
+    List of most useful properties for columns:
+</p>
+<ul>
+    <li>
+        <b>title</b> - string, required. Column title in data grid.
+    </li>
+    <li>
+        <b>editTitle</b> - string. Column title in edit dialog. The same as title by default.
+    </li>
+    <li>
+        <b>name</b> - string, required. Name of the property in ejs.entity.
+    </li>
+    <li>
+        <b>orderBy</b> - string. Overrides column name for server side ordering. The same as name by default.
+    </li>
+    <li>
+        <b>showOnly</b> - bool. Column is invisible in edit dialog if set to true. False by default.
+    </li>
+    <li>
+        <b>editOnly</b> - bool. Column is visible in edit dialog only if set to true. False by default.
+    </li>
+    <li>
+        <a href="#hejs.crud-properties-columns-type">type</a> - string. Column type. String by default.
+    </li>
+    <li>
+        <b>required</b> - bool. Whether or not column is required. False by default.
+    </li>
+    <li>
+        <b>filter</b> - bool. Whether or not use in-grid filter for this column.
+    </li>
+</ul>
+<h3 id="hejs.crud-properties-columns-type">ejs.crud -> properties -> columns -> type</h3>
+<p>
+    ejs.crud supports different column data types, some of them requires additional settings.
+    <br />
+    List of supported data types:
+</p>
+<ul>
+    <li>
+        <b>string</b> - the most simple data type. Html element is input[type=text].
+    </li>
+    <li>
+        <b>textarea</b> - the same as string, but html element is textarea.
+    </li>
+    <li>
+        <b>checkbox</b> - boolean data type. Html element is input[type=checkbox].
+        <br />
+        <b>Note</b>: boolean values must be true/false, not 1/0.
+    </li>
+    <li>
+        <b>select</b> - select box data type. Html element is select.
+        <br />
+        List of custom select properties:
+        <ol>
+            <li>
+                <b>options</b> - string, required. ejs.set name to bind options from. The set must be in koModel passed to ejs.crud constructor.
+            </li>
+            <li>
+                <b>optionsName</b> - string. Name of the property to take option's name. "name" by default.
+            </li>
+            <li>
+                <b>optionsCaption</b> - string. Value for an empty option, for example: "-- Select value --". Null by default.
+            </li>
+            <li>
+                <b>optionsValue</b> - string. Name of the property to take option's value. "id" by default.
+            </li>
+        </ol>
+    </li>
+    <li>
+        <b>template</b> - custom field data type.
+        <br />
+        Additional properties: 
+        <ol>
+            <li>
+                <b>template</b> - html of custom field to display in data grid and edit dialog.
+            </li>
+            <li>
+                <b>showTemplate</b> - html of custom field to display in data grid.
+            </li>
+            <li>
+                <b>editTemplate</b> - html of custom field to display in edit dialog.
+            </li>
+        </ol>
+        <p>
+            You can pass id of html element, innerHtml will be used for template.
+            <br />
+            For example: template: "#scrCustomColumnTemplate". The template's html will be taken like this: $("#scrCustomColumnTemplate").html();
+        </p>
+    </li>
+</ul>

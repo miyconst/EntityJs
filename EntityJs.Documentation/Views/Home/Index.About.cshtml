@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "EntityJs - about";
+}
+
+<ul id="menu">
+    <li>
+        <a href="@Url.Content("~/")">Home</a>
+    </li>
+    <li>
+        <span>-></span>
+    </li>
+    <li>
+        <a href="@Url.Content("~/Home/Index/About")">About EntityJs</a>
+    </li>
+</ul>
+<h1>EntityJs - About</h1>
+<p>
+    EntityJs is an asp.net mvc3/4 Entity Framework client-server library which provides easy and safe database access from client side.
+</p>
+<p>
+    EntityJs contains two parts. The server side and the client side. The server side accesses Entity Framework Model via reflection/dynamic to select/insert/update/delete data. 
+    The client side contains JavaScript data model and communicate with with the server side via post requests in json format.
+</p>
+<p>
+    <b>Requirements.</b> EntityJs works via Entity Framework Data Model, which means any database which supports EFDM can be used.
+    <br />
+    Although EntityJs requries strict table naming. 
+</p>
+<ul>
+    <li>
+        Table names should be in plural and start from big letter. 
+        <br />
+        Table names: 
+        <span class="correct">Customers</span>, 
+        <span class="correct">Orders</span>, 
+        <span class="correct">OrderItems</span>,
+        <span class="incorrect">customers</span>,
+        <span class="incorrect">Customer</span>,
+        <span class="incorrect">OrdersItem</span>,
+        <span class="incorrect">OrdersItems</span>,
+        <span class="incorrect">Orders_Items</span>
+    </li>
+    <li>
+        Column <b>ID int autoincrement</b> is required for each table.
+        <br />
+        <small>Some of you like to use Id instead of ID. You can do that by setting <b>IDKey</b> of <a href="/Home/Index/ServerSide#JsModel">JsModel</a> and rewriting <b>ejs.toServerName</b> method in <b>core.js</b> file.</small>
+        <br />
+        Static tables with non-autoincrement ID can be used in readonly mode.
+        <br />
+        EntityJs does not work with ID of type guid!
+    </li>
+    <li>
+        It is highly recomended to name foreign key columns in such way: ForeignTableNameID. Name of the foreign table has to be in singular.
+        <br />
+        Foreign key column names:
+        <span class="correct">TypeID</span>,
+        <span class="correct">OrderTypeID</span>,
+        <span class="correct">StatusID</span>,
+        <span class="correct">CustomerID</span>,
+        <span class="incorrect">Type</span>,
+        <span class="incorrect">TypeReference</span>,
+        <span class="incorrect">typeID</span>,
+        <span class="incorrect">Type_ID</span>,
+        <span class="incorrect">StatusId</span>
+    </li>
+    <li>
+        EntityJs doesn't not support Entity Framework Code First Model.
+    </li>
+</ul>
+<p>
+    <span class="correct">Correct value</span>;
+    <span class="incorrect">Incorrect value</span>;
+</p>

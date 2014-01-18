@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "MultiSelect";
+    Random rand = new Random();
+    
+}
+<script src="@Url.Content("~/Scripts/Views/Home/MultiSelect.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+<select multiple="multiple" size="5" data-bind="selectedOptions: $root.selected, options: $root.options, optionsText: 'name'"></select>

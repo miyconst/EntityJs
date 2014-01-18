@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs", "EntityJs\EntityJs.csproj", "{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.Client", "EntityJs.Client\EntityJs.Client.csproj", "{478E3899-0320-4DD5-A476-05F718C50AD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.Documentation", "EntityJs.Documentation\EntityJs.Documentation.csproj", "{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}.Release|x86.ActiveCfg = Release|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{478E3899-0320-4DD5-A476-05F718C50AD1}.Release|x86.ActiveCfg = Release|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
