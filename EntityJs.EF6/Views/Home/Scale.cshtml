@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Scale";
+    Random rand = new Random();
+}
+<script src="@Url.Content("~/Scripts/Views/Home/Scale.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+<div>
+    <input type="text" data-bind="value: $root.scale.ko.start" />
+    <input type="text" data-bind="value: $root.scale.ko.end" />
+    <input type="text" data-bind="value: $root.scale.ko.value().title" />
+    <input type="text" data-bind="value: $root.scale.ko.valueIndex" />
+</div>
+<div id="divScale" class="ejsScale beige"></div>
+<div>
+    <button data-bind="click: $root.refresh10">Refresh 10</button>
+    <button data-bind="click: $root.refresh15">Refresh 15</button>
+    <button data-bind="click: $root.refresh20">Refresh 20</button>
+</div>

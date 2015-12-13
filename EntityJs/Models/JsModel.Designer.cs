@@ -29,6 +29,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("EntityJsModel", "FK_Events_EventTypes", "IncidentType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EntityJs.Models.IncidentType), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EntityJs.Models.Incident), true)]
 [assembly: EdmRelationshipAttribute("EntityJsModel", "FK_Incident_Roles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EntityJs.Models.Role), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EntityJs.Models.Incident), true)]
 [assembly: EdmRelationshipAttribute("EntityJsModel", "FK_Incident_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EntityJs.Models.User), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EntityJs.Models.Incident), true)]
+[assembly: EdmRelationshipAttribute("EntityJsModel", "FK_UserSettings_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EntityJs.Models.User), "UserSetting", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EntityJs.Models.UserSetting), true)]
 
 #endregion
 
@@ -2529,6 +2530,28 @@ namespace EntityJs.Models
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EntityJsModel", "FK_UserSettings_Users", "UserSetting")]
+        public EntityCollection<UserSetting> UserSettings
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserSetting>("EntityJsModel.FK_UserSettings_Users", "UserSetting");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserSetting>("EntityJsModel.FK_UserSettings_Users", "UserSetting", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -2550,12 +2573,14 @@ namespace EntityJs.Models
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="value">Initial value of the Value property.</param>
-        public static UserSetting CreateUserSetting(global::System.Int32 id, global::System.String name, global::System.String value)
+        /// <param name="userID">Initial value of the UserID property.</param>
+        public static UserSetting CreateUserSetting(global::System.Int32 id, global::System.String name, global::System.String value, global::System.Int32 userID)
         {
             UserSetting userSetting = new UserSetting();
             userSetting.ID = id;
             userSetting.Name = name;
             userSetting.Value = value;
+            userSetting.UserID = userID;
             return userSetting;
         }
 
@@ -2637,10 +2662,76 @@ namespace EntityJs.Models
         private global::System.String _Value;
         partial void OnValueChanging(global::System.String value);
         partial void OnValueChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserID
+        {
+            get
+            {
+                return _UserID;
+            }
+            set
+            {
+                OnUserIDChanging(value);
+                ReportPropertyChanging("UserID");
+                _UserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserID");
+                OnUserIDChanged();
+            }
+        }
+        private global::System.Int32 _UserID;
+        partial void OnUserIDChanging(global::System.Int32 value);
+        partial void OnUserIDChanged();
 
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EntityJsModel", "FK_UserSettings_Users", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("EntityJsModel.FK_UserSettings_Users", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("EntityJsModel.FK_UserSettings_Users", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("EntityJsModel.FK_UserSettings_Users", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("EntityJsModel.FK_UserSettings_Users", "User", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
 
     #endregion

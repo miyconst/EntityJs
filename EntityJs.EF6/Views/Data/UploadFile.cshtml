@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>UploadFile</title>
+    <script src="@Url.Content("~/Scripts/jquery-1.8.0.min.js")"></script>
+</head>
+<body style="padding:0px; margin:0px;">
+    <form id="frmFile" enctype="multipart/form-data" method="post">
+        <input type="file" name="@ViewBag.ID" />
+        <input type="hidden" name="FileID" value="@ViewBag.FileID" />
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("input[type=file]").change(function () {
+                var txt = $(this);
+                var e = parent.onFileSelected || top.onFileSelected;
+                if (!e && parent.koModel) {
+                    e = parent.koModel.onFileSelected;
+                } else if (!e && top.koModel) {
+                    e = top.koModel.onFileSelected;
+                }
+
+                if (e) {
+                    e.raise({ value: txt.val(), name: txt.attr("name") });
+                }
+            });
+        });
+    </script>
+    @if (ViewBag.Data != null)
+    {
+        <script type="text/javascript">
+            var data = eval("(" + '@(MvcHtmlString.Create(ViewBag.Data))' + ")");
+            $(function () {
+                var e = parent.onFileUploaded || top.onFileUploaded;
+                if (!e && parent.koModel) {
+                    e = parent.koModel.onFileUploaded;
+                } else if (!e && top.koModel) {
+                    e = top.koModel.onFileUploaded;
+                }
+
+                if (e) {
+                    var f = null;
+                    if (data.Code == 200) {
+                        var f = {
+                            id: data.File.ID,
+                            name: data.File.Name,
+                            url: data.File.Url,
+                            virtualPath: data.File.VirtualPath
+                        };
+                    }
+                    e.raise({
+                        file: f,
+                        name: data.ID,
+                        code: data.Code,
+                        message: data.Message
+                    });
+                }
+            });
+        </script>
+    }
+</body>
+</html>

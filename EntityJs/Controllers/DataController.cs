@@ -38,6 +38,7 @@ namespace EntityJs.Controllers
                 s = new UserSetting();
                 db.UserSettings.AddObject(s);
                 s.Name = Name;
+                s.UserID = db.Users.FirstOrDefault().ID;
             }
 
             s.Value = Value;

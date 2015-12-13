@@ -93,6 +93,18 @@ namespace EntityJs.Controllers
             return View();
         }
 
+        public ActionResult Grid2()
+        {
+            var data = new
+            {
+                UserSettings = db.UserSettings.ToList().Select(val => val.ToJson()).ToList()
+            };
+
+            ViewBag.Data = serializer.Serialize(data);
+
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

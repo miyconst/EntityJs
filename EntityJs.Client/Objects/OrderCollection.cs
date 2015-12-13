@@ -12,6 +12,11 @@ namespace EntityJs.Client.Objects
             this.Parameters = Parameters.Select(val => new OrderParameter(val)).ToList();
         }
 
+        public OrderCollection(List<OrderParameter> Parameters)
+        {
+            this.Parameters = Parameters;
+        }
+
         public OrderCollection()
         {
             this.Parameters = new List<OrderParameter>();

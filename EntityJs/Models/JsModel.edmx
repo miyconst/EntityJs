@@ -57,6 +57,10 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserSettings_Users" Association="EntityJsModel.Store.FK_UserSettings_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserSettings" EntitySet="UserSettings" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Categories">
           <Key>
@@ -84,7 +88,7 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Url" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Date" Type="datetime2" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Incidents">
           <Key>
@@ -92,7 +96,7 @@
           </Key>
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TypeID" Type="int" />
-          <Property Name="Date" Type="datetime2" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="Visible" Type="bit" Nullable="false" />
@@ -139,7 +143,7 @@
           <Property Name="Price" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="PhotoID" Type="int" />
           <Property Name="BigPhotoID" Type="int" />
-          <Property Name="Date" Type="datetime2" />
+          <Property Name="Date" Type="datetime" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -163,6 +167,7 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Events_EventTypes">
           <End Role="IncidentTypes" Type="EntityJsModel.Store.IncidentTypes" Multiplicity="0..1" />
@@ -284,6 +289,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserSettings_Users">
+          <End Role="Users" Type="EntityJsModel.Store.Users" Multiplicity="1" />
+          <End Role="UserSettings" Type="EntityJsModel.Store.UserSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSettings">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -339,6 +356,10 @@
           <AssociationSet Name="FK_Incident_Users" Association="EntityJsModel.FK_Incident_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Incident" EntitySet="Incidents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSettings_Users" Association="EntityJsModel.FK_UserSettings_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserSetting" EntitySet="UserSettings" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
@@ -415,6 +436,8 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="EntityJsModel.FK_UserSettings_Users" FromRole="UserSetting" ToRole="User" />
         </EntityType>
         <EntityType Name="File">
           <Key>
@@ -423,7 +446,7 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Url" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="Date" Nullable="false" Precision="7" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
           <NavigationProperty Name="Products" Relationship="EntityJsModel.FK_Products_Files" FromRole="File" ToRole="Product" />
           <NavigationProperty Name="Products1" Relationship="EntityJsModel.FK_Products_Files_BigPhotoID" FromRole="File" ToRole="Product" />
         </EntityType>
@@ -442,7 +465,7 @@
           <NavigationProperty Name="Photo" Relationship="EntityJsModel.FK_Products_Files" FromRole="Product" ToRole="File" />
           <NavigationProperty Name="BigPhoto" Relationship="EntityJsModel.FK_Products_Files_BigPhotoID" FromRole="Product" ToRole="File" />
           <NavigationProperty Name="OrderItmes" Relationship="EntityJsModel.FK_OrderItmes_Products" FromRole="Product" ToRole="OrderItme" />
-          <Property Type="DateTime" Name="Date" Precision="7" />
+          <Property Type="DateTime" Name="Date" Precision="3" />
         </EntityType>
         <Association Name="FK_Products_Categories">
           <End Type="EntityJsModel.Category" Role="Category" Multiplicity="1" />
@@ -521,6 +544,7 @@
           <Property Type="Int32" Name="RoleID" Nullable="false" />
           <NavigationProperty Name="Role" Relationship="EntityJsModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Incidents" Relationship="EntityJsModel.FK_Incident_Users" FromRole="User" ToRole="Incident" />
+          <NavigationProperty Name="UserSettings" Relationship="EntityJsModel.FK_UserSettings_Users" FromRole="User" ToRole="UserSetting" />
         </EntityType>
         <Association Name="FK_Users_Roles">
           <End Type="EntityJsModel.Role" Role="Role" Multiplicity="1" />
@@ -540,7 +564,7 @@
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="TypeID" />
-          <Property Type="DateTime" Name="Date" Nullable="false" Precision="7" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Visible" Nullable="false" />
@@ -587,6 +611,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserSettings_Users">
+          <End Type="EntityJsModel.User" Role="User" Multiplicity="1" />
+          <End Type="EntityJsModel.UserSetting" Role="UserSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -621,6 +657,7 @@
           <EntitySetMapping Name="UserSettings">
             <EntityTypeMapping TypeName="EntityJsModel.UserSetting">
               <MappingFragment StoreEntitySet="UserSettings">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -743,6 +780,7 @@
         <AssociationConnector Association="EntityJsModel.FK_Events_EventTypes" />
         <AssociationConnector Association="EntityJsModel.FK_Incident_Roles" />
         <AssociationConnector Association="EntityJsModel.FK_Incident_Users" />
+        <AssociationConnector Association="EntityJsModel.FK_UserSettings_Users" />
         </Diagram>
     </Diagrams>
   </Designer>

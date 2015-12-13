@@ -134,6 +134,21 @@ namespace EntityJs.Client.Dynamic
                     source.Expression, Expression.Quote(keyLambda), Expression.Quote(elementLambda)));
         }
 
+        public static decimal Sum(this IQueryable source, string path, params object[] values)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (path == null) throw new ArgumentNullException("path");
+
+            ParameterExpression[] parameters = new ParameterExpression[] { Expression.Parameter(source.ElementType, "") };
+            LambdaExpression sumExp = DynamicExpression.ParseLambda(source.ElementType, null, path, values);
+            
+            string method = "Sum";
+
+            Expression queryExpr = Expression.Call(typeof(Queryable), method, new Type[] { source.ElementType }, source.Expression, Expression.Quote(sumExp));
+
+            return source.Provider.Execute<decimal>(queryExpr);
+        }
+
         public static bool Any(this IQueryable source)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -2360,7 +2375,8 @@ namespace EntityJs.Client.Dynamic
 
         void ValidateToken(TokenId t, string errorMessage)
         {
-            if (token.id != t) throw ParseError(errorMessage);
+            if (token.id != t)
+                throw ParseError(errorMessage);
         }
 
         void ValidateToken(TokenId t)

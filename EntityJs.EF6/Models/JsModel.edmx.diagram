@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b8d1ced48e1a48b99fea19a80b748d6c" Name="Diagram1">
+        <EntityTypeShape EntityType="EntityJsModel.Category" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.Customer" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.File" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.Incident" Width="1.5" PointX="10.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.IncidentType" Width="1.5" PointX="8" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.OrderItme" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.Order" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.Role" Width="1.5" PointX="5.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityJsModel.User" Width="1.5" PointX="8" PointY="11.25" IsExpanded="true" />
+        <AssociationConnector Association="EntityJsModel.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Orders_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Products_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Products_Files_BigPhotoID" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Events_EventTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Incident_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Incident_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_OrderItmes_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_OrderItmes_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EntityJsModel.FK_Users_Roles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EntityJsModel.UserSetting" Width="1.5" PointX="5.375" PointY="4.75" />
+        <AssociationConnector Association="EntityJsModel.FK_UserSettings_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

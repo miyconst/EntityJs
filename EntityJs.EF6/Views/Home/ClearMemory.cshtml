@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ClearMemory</title>
+    <script type="text/javascript">
+        var ejs = {};
+        ejs.createEvent = function () {
+            var result = [];
+
+            result.attach = function (func) {
+                if (typeof func == "function") {
+                    result.push(func);
+                }
+            };
+
+            result.detach = function (func) {
+                var index = result.indexOf(func);
+
+                if (index < 0) {
+                    return;
+                }
+
+                result.splice(index, 1);
+            };
+
+            result.raise = function (e) {
+                var r = [];
+
+                result.forEach(function (it, i) {
+                    r.push(it(e));
+                });
+
+                if (r.length < 2) {
+                    return r[0];
+                }
+
+                return r;
+            };
+
+            return result;
+        };
+        ejs.createProperty = function (value, name) {
+            var result = function (newValue) {
+                if (arguments.length > 0) {
+                    if (ejs.isEmpty(newValue)) {
+                        newValue = "";
+                    }
+
+                    var e = { oldValue: value, newValue: newValue };
+                    value = newValue;
+                    result.change.raise(e);
+                }
+
+                return value;
+            };
+
+            result.originalValue = value;
+            result.hasChanges = function () {
+                return result.originalValue !== result();
+            };
+
+            result.name = name;
+            result.change = ejs.createEvent();
+            result.attach = result.change.attach;
+            result.detach = result.change.detach;
+
+            return result;
+        };
+
+        var a = function () {
+            var mos = [];
+
+            for (var i = 0; i < 100000; i++) {
+                mos.push(ejs.createProperty(i, i));
+            }
+        };
+
+        a();
+    </script>
+</head>
+<body>
+    <div>
+        <button onclick="a">a</button>
+    </div>
+</body>
+</html>

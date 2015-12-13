@@ -1,0 +1,722 @@
+﻿/*-- File version 0.0.0.17 from 2013.04.01 --*/
+/*-- Begin default style --*/
+div.ejsgrid
+{
+    overflow:auto;
+}
+
+div.ejsgrid-header
+{
+    padding:0px;
+    margin:0px;
+    color:white;
+    position:relative;
+}
+
+div.ejsgrid-header table
+{
+    background-color:#808080;
+    border-collapse:collapse;
+    padding:0px;
+    margin:0px;
+}
+
+div.ejsgrid-header table td div.ui-resizable-e
+{
+    cursor:col-resize;
+}
+
+div.ejsgrid-header table td div.ui-resizable-e:hover
+{
+    background-color:#C0C0C0;
+}
+
+div.ejsgrid-header table td
+{
+    padding:0px;
+    text-align:left;
+    font-weight:bold;
+    color:white;
+    border:1px solid black;
+}
+
+div.ejsgrid-header table td div.col
+{
+    overflow:hidden;
+}
+
+div.ejsgrid-header table td div.col.orderable
+{
+    cursor:pointer;
+}
+
+div.ejsgrid-header table td div.col.active
+{
+    background-color: #FFFFCC!important;
+    color: black;
+}
+
+div.ejsgrid-header table td div.col.hover
+{
+    background-color: #CCFFCC!important;
+    color: black;
+}
+
+div.ejsgrid-header table td div.col div.text
+{
+    padding:10px;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.text
+{
+    margin:-5px;
+}
+
+div.ejsgrid-header table tr.filter td div.col[colname=Save] div.text
+{
+    margin:0px;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.text div.control
+{
+    margin-right:55px;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.text input,
+div.ejsgrid-header table tr.filter td div.col div.text select
+{
+    box-sizing:border-box;
+    width:100%;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.text div.conditions
+{
+    float:right;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.text select.conditions
+{
+    width:50px;
+}
+
+div.ejsgrid-header table tr.filter td div.col input.select
+{
+    cursor:pointer;
+    -webkit-appearance: menulist-button;
+    background-color: #ffffff;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.check-list
+{
+    background-color:white;
+    padding:5px;
+    position:absolute;
+    border:1px solid black;
+    white-space:nowrap;
+    text-align:left;
+    overflow:auto;
+    max-height:200px;
+    display:none;
+    z-index:2;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.check-list dl
+{
+    margin:0px;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.check-list dd
+{
+    padding-left:15px;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.check-list label
+{
+    display:block;
+    float:none;
+}
+
+div.ejsgrid-header table tr.filter td div.col div.check-list label span,
+div.ejsgrid-header table tr.filter td div.col div.check-list label input
+{
+    display:inline-block;
+    float:none;
+    width:auto;
+    vertical-align:middle;
+}
+
+div.ejsgrid .icon
+{
+    background-position:left center;
+    display: inline-block;
+    height: 16px;
+    width:auto;
+    padding-left:16px;
+    background-repeat: no-repeat;
+    line-height:16px;
+    text-decoration:none;
+    color:#333333;
+}
+
+div.ejsgrid a.icon:hover
+{
+    text-decoration:underline;
+}
+
+div.ejsgrid .icon.text
+{
+    padding-left:22px;
+}
+
+div.ejsgrid a.save
+{
+    background-image: url('images/ejs/save.png');
+}
+
+div.ejsgrid a.edit
+{
+    background-image: url('images/ejs/edit.png');
+}
+
+div.ejsgrid a.remove
+{
+    background-image: url('images/ejs/remove.png');
+}
+
+div.ejsgrid a.insert
+{
+    background-image: url('images/ejs/insert.png');
+}
+
+div.ejsgrid a.refresh
+{
+    background-image: url('images/ejs/refresh.png');
+}
+
+div.ejsgrid a.filter
+{
+    background-image: url('images/ejs/settings.png');
+}
+
+div.ejsgrid a.check
+{
+    background-image: url('images/ejs/check.gif');
+}
+
+div.ejsgrid a.cross
+{
+    background-image: url('images/ejs/cross.gif');
+}
+
+div.ejsgrid span.loading
+{
+    background-image: url('images/ejs/loading.gif');
+}
+
+table.ejsgrid
+{
+    border-collapse:collapse;
+    border:none;
+    padding:0px;
+    margin:0px;
+}
+
+table.ejsgrid td
+{
+    padding:10px;
+    border:1px solid #808080;
+    background-color:white;
+}
+
+table.ejsgrid td.pager
+{
+    border:none;
+    position:relative;
+    padding:0px;
+}
+
+table.ejsgrid td div.td
+{
+    overflow:hidden;
+}
+
+table.ejsgrid div.pager
+{
+    background-color:transparent;
+    border:1px solid #808080;
+    overflow:hidden;
+    padding:10px;
+    margin-right:-1px;
+}
+
+table.ejsgrid div.pager div.shown
+{
+    float:left;
+}
+
+table.ejsgrid div.pager div.insert
+{
+    float:right;
+}
+
+table.ejsgrid div.pager div.pages
+{
+    text-align:center;
+}
+
+table.ejsgrid div.pager div.pages a
+{
+    display:inline-block;
+    text-decoration:none;
+    color:#333333;
+    background-color:#F0F0F0;
+    border:1px solid #C0C0C0;
+    margin:0px 3px;
+    padding:0px 3px;
+    border-radius:3px;
+}
+
+table.ejsgrid div.pager div.pages a.selected
+{
+    background-color:#808080;
+    color:white;
+    font-weight:bold;
+}
+
+table.ejsgrid tr.foot td
+{
+    padding-top:0px!important;
+    padding-bottom:0px!important;
+    border-bottom:none!important;
+    border-top:none!important;
+}
+
+.ejs-resizable-helper
+{
+    border:2px dotted yellow;
+}
+
+div.ejsgrid-menu
+{
+    position:absolute;
+    background-color:#F0F0F0;
+    border:1px solid #C0C0C0;
+    display:none;
+    padding:5px;
+    border-radius:2px;
+    z-index:2;
+    opacity:1;
+}
+
+div.ejsgrid-menu a.delete
+{
+    position:relative;
+}
+
+ul.ejsgrid-menu
+{
+    list-style-type:none;
+    padding:0px;
+    margin:0px;
+    border:none;
+}
+
+ul.ejsgrid-menu li
+{
+    margin:2px 0px;
+}
+
+ul.ejsgrid-menu li input,
+ul.ejsgrid-menu li label
+{
+    display:inline-block;
+    vertical-align:middle;
+    padding:0px;
+    margin:0px;
+}
+
+ul.ejsgrid-menu li label
+{
+    margin-left:5px;
+}
+
+ul.ejsgrid-menu li.button
+{
+    float:right;
+}
+/*-- End default style --*/
+
+/*-- Begin beige style --*/
+div.ejsgrid.beige
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table
+{
+    background-color: #f3f4ee;
+}
+
+div.ejsgrid.beige table.ejsgrid td,
+div.ejsgrid.beige div.ejsgrid-header table td
+{
+    border:1px solid #dfe0db;
+    border-top:none;
+    border-bottom:none;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table tr:first-child td
+{
+    border-top:1px solid #dfe0db;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col
+{
+    color:black;
+    font-weight:normal;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table tr.filter td
+{
+    border-top:1px solid #dfe0db;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table tr.filter td div.col div.text
+{
+    margin:0px;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col.orderable
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col div.text
+{
+    font-weight:bold;
+    padding:5px;
+}
+
+div.ejsgrid.beige table.ejsgrid td
+{
+    border:1px solid #ccc;
+    padding:5px;
+}
+
+div.ejsgrid.beige table.ejsgrid tr:nth-child(odd) td
+{
+    background-color:white;
+}
+
+div.ejsgrid.beige table.ejsgrid tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.beige table.ejsgrid tr:nth-child(odd).selected td,
+div.ejsgrid.beige table.ejsgrid tr.selected td
+{
+    background-color:#e3e4de;
+}
+
+div.ejsgrid.beige table.ejsgrid tr:nth-child(odd).invalid td, 
+div.ejsgrid.beige table.ejsgrid tr.invalid td
+{
+    background-color: #FFCCCC;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager
+{
+    padding:0px;
+    border:none;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager
+{
+    background-color:#f3f4ee;
+    padding:0px;
+    padding:5px;
+    border:none;
+    border-top:1px solid #ccc;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.shown,
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.insert
+{
+    margin-top:3px;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.pages a
+{
+    background: #ffffff;
+    border:1px solid #A0A0A0;
+    padding:2px 6px;
+    margin:1px;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.pages a.selected
+{
+    background-color:#a8cc48;
+    color:black;
+    font-weight:bold;
+}
+
+div.ejsgrid.beige table.ejsgrid td div.td a.icon
+{
+    margin-left:2px;
+}
+
+div.ejsgrid.beige a.save
+{
+    background-image: url('images/ejs/beige-save.png');
+}
+
+div.ejsgrid.beige a.edit
+{
+    background-image: url('images/ejs/beige-edit.png');
+}
+
+div.ejsgrid.beige a.remove
+{
+    background-image: url('images/ejs/beige-remove.png');
+}
+
+div.ejsgrid.beige a.insert
+{
+    background-image: url('images/ejs/beige-insert.png');
+}
+
+div.ejsgrid.beige a.filter
+{
+    background-image: url('images/ejs/beige-settings.png');
+}
+
+div.ejsgrid.beige a.check
+{
+    background-image: url('images/ejs/beige-check.png');
+}
+
+div.ejsgrid.beige a.cross
+{
+    background-image: url('images/ejs/beige-cross.png');
+}
+/*-- End beige style --*/
+
+/*-- Begin bootstrap style --*/
+div.ejsgrid.bootstrap
+{
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table
+{
+    background-color: transparent;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td,
+div.ejsgrid.bootstrap div.ejsgrid-header table td
+{
+    border:none;
+    border-top: 1px solid #DDD;
+}
+
+div.ejsgrid.bootstrap div.moved
+{
+    opacity:1;
+    z-index:1;
+}
+
+div.ejsgrid.bootstrap div.moved div.ejsgrid-header table tr:first-child td
+{
+    border-bottom: 1px solid #DDD;
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table tr:first-child td
+{
+    border-top:none;
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table td
+{
+    font-weight: bold;
+    line-height:20px;
+    background-color:white;
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table td div.col
+{
+    color:black;
+    background-color:white;
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table tr.filter td
+{
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table tr.filter td div.col div.text
+{
+    margin:0px;
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table td div.col.orderable
+{
+}
+
+div.ejsgrid.bootstrap div.ejsgrid-header table td div.col div.text
+{
+    font-weight:bold;
+    padding:8px;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td
+{
+    padding:8px;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid tr:nth-child(odd) td
+{
+    background-color:#f9f9f9;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid tr:nth-child(odd).selected td,
+div.ejsgrid.bootstrap table.ejsgrid tr.selected td
+{
+    background-color:#e3e4de;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid tr:nth-child(odd).invalid td, 
+div.ejsgrid.bootstrap table.ejsgrid tr.invalid td
+{
+    background-color: #FFCCCC;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager
+{
+    margin:0px;
+    padding:0px;
+    border:none;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager
+{
+    background-color:white;
+    margin:0px;
+    padding:5px;
+    border:none;
+    border-top: 1px solid #DDD;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager select
+{
+    padding:0px;
+    margin:0px;
+    border:none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    height: auto;
+    line-height: 20px;
+    -webkit-appearance:none;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager div.shown,
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager div.insert
+{
+    margin-top:3px;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager div.pages a
+{
+    background: #ffffff;
+    padding:0px 3px;
+    margin:1px;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td.pager div.pager div.pages a.selected
+{
+    background-color:#F0F0F0;
+    color:black;
+    font-weight:bold;
+}
+
+div.ejsgrid.bootstrap a.icon
+{
+    opacity:0.7;
+    position:relative;
+    z-index:0;
+}
+
+div.ejsgrid.bootstrap a.icon:hover
+{
+    opacity:1;
+    transition:opacity 0.5s;
+    -webkit-transition:opacity 0.5s;
+    -moz-transition:opacity 0.5s;
+    -o-transition:opacity 0.5s;
+    -ms-transition:opacity 0.5s;
+}
+
+div.ejsgrid.bootstrap table.ejsgrid td div.td a.icon
+{
+    margin-left:2px;
+}
+
+div.ejsgrid.bootstrap a.save
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -288px 0;
+}
+
+div.ejsgrid.bootstrap a.edit
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -96px -72px;
+}
+
+div.ejsgrid.bootstrap a.view
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -120px -72px;
+}
+
+div.ejsgrid.bootstrap a.remove
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -312px 0;
+}
+
+div.ejsgrid.bootstrap a.insert
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: 0 -94px;
+    padding-left:18px;
+}
+
+div.ejsgrid.bootstrap a.insert span
+{
+    background-color:white;
+}
+
+div.ejsgrid.bootstrap a.filter
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -408px -144px;
+}
+
+div.ejsgrid.bootstrap a.check
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -288px 0;
+}
+
+div.ejsgrid.bootstrap a.cross
+{
+    background-image: url('bootstrap/img/glyphicons-halflings.png');
+    background-position: -312px 0;
+}
+/*-- End bootstrap style --*/

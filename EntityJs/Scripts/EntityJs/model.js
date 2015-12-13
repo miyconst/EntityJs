@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.0.23 from 2013.05.16 --*/
+﻿/*-- File version 0.0.0.24 from 2015.03.29 --*/
 ejs.model = function (params) {
     var me = this;
     var settings = {
@@ -345,17 +345,32 @@ ejs.model = function (params) {
             return;
         }
 
-        var updated = changes.updated;
-        var deleted = changes.deleted;
+        var updated;
+        var deleted;
 
         if (setNames && setNames.any()) {
-            updated = updated.where(function (it, i) {
-                return setNames.contains(it.settings.setName);
+            updated = [];
+            deleted = [];
+
+            me.changes.updated.copy().forEach(function (it, i) {
+                if (setNames.contains(it.settings.setName)) {
+                    updated.push(it)
+                    me.changes.updated.splice(i, 1);
+                }
             });
 
-            deleted = deleted.where(function (it, i) {
-                return setNames.contains(it.settings.setName);
+            deleted = deleted.copy().forEach(function (it, i) {
+                if (setNames.contains(it.settings.setName)) {
+                    deleted.push(it);
+                    me.changes.deleted.splice(i, 1);
+                }
             });
+        } else {
+            updated = changes.updated.copy();
+            deleted = changes.deleted.copy();
+
+            changes.updated = [];
+            changes.deleted = [];
         }
 
         if (!updated.any() && !deleted.any()) {
@@ -399,7 +414,8 @@ ejs.model = function (params) {
             data: ejs.toServerObject(data),
             success: function (result) {
                 me.errors = result.errors;
-                updated.forEach(function (it, i) {
+
+                updated.copy().forEach(function (it, i) {
                     var id = it.id();
 
                     if (id < 0) {
@@ -410,6 +426,25 @@ ejs.model = function (params) {
 
                     if (newValues) {
                         it.parse(newValues);
+                        updated.splice(i, 1);
+                    } else {
+                        var temp = me.changes.updated.first(function (en) {
+                            return en.settings.name == it.settings.name && en.id() == it.id();
+                        });
+
+                        if (!temp) {
+                            changes.updated.push(it);
+                        }
+                    }
+                });
+
+                deleted.copy().forEach(function (it, i) {
+                    var id = it.id();
+                    
+                    if (result.deletedIDs.contains(id)) {
+                        deleted.splice(i, 1);
+                    } else {
+                        changes.deleted.push(it);
                     }
                 });
 
@@ -441,7 +476,7 @@ ejs.model = function (params) {
                     errors: result.errors
                 };
 
-                if (setNames && setNames.length) {
+                /*if (setNames && setNames.length) {
                     updated.forEach(function (it, i) {
                         changes.updated.removeEl(it);
                     });
@@ -465,10 +500,7 @@ ejs.model = function (params) {
                         }
                         i++;
                     }
-                } else {
-                    changes.updated = [];
-                    changes.deleted = [];
-                }
+                } */
 
                 me.events.updated.raise(e);
                 ejs.callIfFunction(callback, e);

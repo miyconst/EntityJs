@@ -1,0 +1,286 @@
+﻿.ejsgrid2
+{
+    overflow:hidden;
+}
+
+.ejsgrid2 table
+{
+    width:auto;
+}
+
+.ejsgrid2 table thead tr th,
+.ejsgrid2 table thead tr th .col,
+.ejsgrid2 table thead tr td,
+.ejsgrid2 table thead tr td .col,
+.ejsgrid2 table tr td,
+.ejsgrid2 table tr td .col
+{
+    padding:0px;
+    box-sizing:content-box;
+}
+
+.ejsgrid2 table thead tr th .col,
+.ejsgrid2 table thead tr td .col,
+.ejsgrid2 table tr td .col
+{
+    overflow:hidden;
+    padding:8px 0px 8px 8px;
+    display:block;
+    margin:0px;
+    border:none;
+    margin-right:8px;
+}
+
+.ejsgrid2 thead tr th
+{
+    position:relative;
+}
+
+.ejsgrid2 thead tr th .menu
+{
+    position:absolute;
+    top:0px;
+    right:0px;
+    border-bottom:1px solid #C0C0C0;
+    border-left:1px solid #C0C0C0;
+    border-radius:0px 0px 0px 4px;
+    display:none;
+    background-color:white;
+}
+
+.ejsgrid2 thead tr th .menu a
+{
+    display:block;
+    padding:0px 3px;
+}
+
+.ejsgrid2 thead tr th:hover .menu
+{
+    display:block;
+    opacity:0.2;
+}
+
+.ejsgrid2 thead tr th .menu:hover
+{
+    opacity:1;
+}
+
+.ejsgrid2 thead tr th .order
+{
+    position:absolute;
+    left:50%;
+    top:-6px;
+    margin-left:-5px;
+    color:#ff6a00;
+}
+
+.ejsgrid2 thead tr th .order .fa
+{
+    display:none;
+}
+
+.ejsgrid2 thead tr th.ejsgrid-th-asc .order .fa-caret-up
+{
+    display:inline-block;
+}
+
+.ejsgrid2 thead tr th.ejsgrid-th-desc .order .fa-caret-down
+{
+    display:inline-block;
+}
+
+.ejsgrid2 .ejsgrid-menu ul.dropdown-menu
+{
+    min-width:220px;
+}
+
+.ejsgrid2 .ejsgrid-menu ul.dropdown-menu li a
+{
+    padding-left:12px;
+}
+
+.ejsgrid2 .ejsgrid-menu ul.dropdown-menu li a i.fa
+{
+    margin-right:5px;
+}
+
+.ejsgrid2 .ejsgrid-menu .ejsgrid-menu-columns
+{
+    overflow:auto;
+    max-height:350px;
+    white-space:nowrap;
+    padding:0px;
+}
+
+.ejsgrid2 .ejsgrid-menu .ejsgrid-menu-columns label.checkbox
+{
+    padding:2px 12px;
+    margin:0px;
+    width:auto;
+    display:block;
+    font-weight:normal;
+    cursor:pointer;
+}
+
+.ejsgrid2 .ejsgrid-menu .ejsgrid-menu-columns label.checkbox input
+{
+    margin:2px 8px 0px 0px;
+}
+
+.ejsgrid2 .ejsgrid-menu .ejsgrid-menu-columns label.checkbox:hover
+{
+    background-color: #428bca;
+    color:white;
+}
+
+.ejsgrid2 .ejsgrid2 thead tr th .menu:hover
+{
+    opacity:1;
+}
+
+.ejsgrid2 thead tr th,
+.ejsgrid2 thead tr td
+{
+    vertical-align:middle;
+}
+
+.ejsgrid2 thead tr th a,
+.ejsgrid2 thead tr td a
+{
+    text-decoration:none;
+}
+
+.ejsgrid2 thead tr td input,
+.ejsgrid2 thead tr td select
+{
+    margin:0px;
+}
+
+.ejsgrid2 .ejsgrid-header,
+.ejsgrid2 .ejsgrid-grid
+{
+    overflow:hidden;
+}
+
+.ejsgrid2 .ejsgrid-header table
+{
+    margin-bottom:0px;
+}
+
+.ejsgrid2 .ejsgrid-header .fa.fa-spin
+{
+    display:none;
+}
+
+.ejsgrid2 .ejsgrid-scroll-vertical,
+.ejsgrid2 .ejsgrid-scroll-horizontal
+{
+    padding:0px;
+    margin:0px;
+    box-sizing:content-box;
+}
+
+.ejsgrid2 .ejsgrid-scroll-vertical
+{
+    float:right;
+    overflow:auto;
+    overflow-y:scroll;
+    width:20px;
+}
+
+.ejsgrid2 .ejsgrid-scroll-horizontal
+{
+    overflow:auto;
+}
+
+.ejsgrid2 .ejsgrid-scroll-vertical div,
+.ejsgrid2 .ejsgrid-scroll-horizontal div
+{
+    min-width:1px;
+    min-height:1px;
+}
+
+.ejsgrid2 .ejsgrid-footer
+{
+    padding:3px 0px;
+    background-color:#F0F0F0;
+    height:50px;
+}
+
+.ejsgrid2 .ejsgrid-footer .pagination
+{
+    display:block;
+    float:right;
+    margin:2px 5px 2px 0px;
+    overflow:auto;
+}
+
+.ejsgrid2 .ejsgrid-footer .pagination a.active
+{
+    background-color:#428bca;
+    color:white;
+}
+
+.ejsgrid2 .ejsgrid-footer .shown
+{
+    line-height:38px;
+    margin:0px 0px 0px 10px;
+}
+
+.ejsgrid2 .ejsgrid-footer .shown .ejsgrid-page-size-separator
+{
+    margin:0px 5px;
+}
+
+.ejsgrid2 .ejsgrid-footer .shown select.form-control
+{
+    display:inline-block;
+    width:auto;
+}
+
+.ejsgrid2 .ui-resizable-handle.ui-resizable-e
+{
+    cursor:e-resize;
+    border-right:1px solid transparent;
+    height:100%;
+    position:absolute;
+    right:-2px;
+    top:0px;
+}
+
+.ejsgrid2 .ui-resizable-handle.ui-resizable-e:hover
+{
+    border-right:6px dotted #583f7e;
+    right:-4px;
+}
+
+.ui-resizable-helper-ejsgrid2
+{
+    border:2px dashed #583f7e;
+}
+
+.ejsgrid2 .ui-draggable-helper
+{
+    cursor:pointer;
+    background-color:white;
+}
+
+.ejsgrid2 .ui-draggable-helper .ui-resizable-handle
+{
+    display:none;
+}
+
+.ejsgrid2 .ui-state-hover .ui-drop-helper
+{
+    position:absolute;
+    height:100%;
+    right:-6px;
+    top:0px;
+    background-color:#d9edf7;
+    width:10px;
+}
+
+.ejsgrid2 .ui-state-active .ui-drop-helper
+{
+    background-color:#3c763d;
+}

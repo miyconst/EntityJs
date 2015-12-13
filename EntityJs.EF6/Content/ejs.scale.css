@@ -1,0 +1,54 @@
+﻿/*-- File version 0.0.0.01 from 2012.11.29 --*/
+/*-- Default style begin --*/
+.ejsScale .ejsScaleMarks
+{
+    overflow:auto;
+}
+
+.ejsScale .ejsScaleMark
+{
+    display:block;
+    float:left;
+    text-align:center;
+    overflow:hidden;
+}
+
+.ejsScale .ejsScaleScroll
+{
+    height:20px;
+}
+
+.ejsScale .ejsScaleScroll .ejsScaleCell
+{
+    display:block;
+    float:left;
+    height:20px;
+    border:1px solid #C0C0C0;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    background-color:#F0F0F0;
+}
+
+.ejsScale .ejsScaleCaret
+{
+    height:20px;
+    background-color:#333333;
+    cursor:pointer;
+}
+/*-- Default style end --*/
+
+/*-- Beige style begin --*/
+.ejsScale.beige .ejsScaleScroll .ejsScaleCell
+{
+    border: 1px solid #CCCCCC;
+    background-color: #F3F4EE;
+}
+
+.ejsScale.beige .ejsScaleCaret
+{
+    background-color: #DDE0CF;
+    border:1px solid #C0C0C0;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+/*-- Beige style end --*/

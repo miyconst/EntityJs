@@ -143,6 +143,15 @@ namespace EntityJs.Client
             }
             return System.Text.RegularExpressions.Regex.Replace(Value, RegexWhat, ReplaceTo);
         }
+        public static string Replace(this string Value, char[] CharsToReplace, string ReplaceTo)
+        {
+            string result = Value;
+            foreach (char c in CharsToReplace)
+            {
+                result = result.Replace(c + "", ReplaceTo);
+            }
+            return result;
+        }
 
         public static string ToLink(this string Value)
         {

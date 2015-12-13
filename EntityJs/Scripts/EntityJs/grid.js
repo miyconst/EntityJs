@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.1.11 from 2013.10.26 --*/
+﻿/*-- File version 0.0.1.13 from 2015.07.23 --*/
 ejs.grid = function (options) {
     var me = this
     var container = null;
@@ -76,7 +76,7 @@ ejs.grid = function (options) {
         }
 
 
-        if (isEmpty(path)) {
+        if (ejs.isEmpty(path)) {
             return settings.source();
         }
 
@@ -189,7 +189,18 @@ ejs.grid = function (options) {
                 }
 
                 var td = tr.find("td[colname=" + it.colname + "]:first");
-                var text = td.text();
+                var div = $("<div/>");
+
+                div.html(td.html());
+                td.find("select").each(function () {
+                    var ddl = $(this);
+                    var opt = ddl.find("option[value='" + ddl.val() + "']");
+                    var text = opt.text();
+                    div.find("select:first").replaceWith(text);
+                });
+
+                var text = div.text();
+
                 if (!text.length && td.find("input[type=checkbox]").checked()) {
                     text = ejs.crud ? ejs.crud.getDefaultTextProvider().bool.yes : "True";
                 }
@@ -241,9 +252,13 @@ ejs.grid = function (options) {
             path = "id";
         }
 
+        if (ejs.isEmpty(colname)) {
+            colname = "id";
+        }
+
         me.orderBy.inProgress(true);
 
-        var div = headerTable.find("tr:first div.col[colname=" + me.orderBy.name() + "]");
+        var div = headerTable.find("tr:first div.col[colname=" + colname + "]");
 
         headerTable.find("tr:first div.col[colname]").removeClass("desc");
         headerTable.find("tr:first div.col[colname]").removeClass("asc");
@@ -400,15 +415,16 @@ ejs.grid = function (options) {
 
         columnsMenu = $(columnsMenu.join(""));
         $("body").append(columnsMenu);
-        columnsMenu.find("input[type=checkbox]").change(function () {
+        $(document).on("change", "#" + settings.headerTableID + "Menu .ejsgrid-menu li input[type=checkbox]", function () {
             var chb = $(this);
             var td = headerTable.find("td[colname=" + chb.val() + "]");
+            var checked = chb.is(":checked");
 
             if (td.size() < 1) {
                 return;
             }
 
-            td.get(0).visible = chb.checked();
+            td.get(0).visible = checked;
             makeStyle();
             setHeaderPosition();
         });

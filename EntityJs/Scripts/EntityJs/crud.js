@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.2.21 from 2013.10.23 --*/
+﻿/*-- File version 0.0.2.27 from 2015.07.23 --*/
 ejs.crud = function (options) {
     var me = this;
     var koModel = options.koModel;
@@ -71,7 +71,7 @@ ejs.crud = function (options) {
         options.filterConditions = options.filterConditions !== false;
 
         if (options.renderer) {
-            renderer = options.renderer;
+            renderer = new options.renderer(options);
         } else if (options.pure) {
             renderer = new ejs.crud.pureRenderer(options);
         } else {
@@ -129,6 +129,16 @@ ejs.crud = function (options) {
             if (e.cancel) {
                 return;
             }
+
+            if (typeof options.editLink == "function") {
+                window.location = options.editLink(row);
+                return;
+            } else if (options.editLink) {
+                var url = options.editLink.replace(/[{]id[}]/gi, row.id());
+                window.location = url;
+                return;
+            }
+
             row.entity.backup();
             wrapper[obsName](row);
             wrapper[obsName].edit = true;
@@ -146,6 +156,12 @@ ejs.crud = function (options) {
             if (e.cancel) {
                 return;
             }
+
+            if (options.createLink) {
+                window.location = options.createLink;
+                return;
+            }
+
             var row = set.create().toKo();
             var e = { row: row, cancel: false }
             me.events.creating.raise(e);
@@ -680,6 +696,9 @@ ejs.crud.pureRenderer = function (options) {
     var rootPath = "$root";
     var showFilterName = "";
 
+    me.events = {};
+    me.events.printing = ejs.createEvent();
+
     function ctor() {
         me.options = options;
         container = $(options.container);
@@ -739,6 +758,8 @@ ejs.crud.pureRenderer = function (options) {
         container.append(me.renderTable());
 
         var source = options.koModel[options.set.settings.name];
+        var crudSettings = ejs.crud.getDefaultSettings();
+
         options.wrapper[gridName] = new ejs.grid({
             container: "#" + tableID,
             source: source,
@@ -768,29 +789,24 @@ ejs.crud.pureRenderer = function (options) {
         });
 
         if (options.selectPageSize) {
+            var sizes = [];
             options.crud.pageSize = ko.obs(options.pageSize);
-            options.crud.pageSizes = ko.obsa([{
-                value: 10,
-                text: "10 " + options.textProvider.rowsPerPage
-            }, {
-                value: 20,
-                text: "20 " + options.textProvider.rowsPerPage
-            }, {
-                value: 30,
-                text: "30 " + options.textProvider.rowsPerPage
-            }, {
-                value: 50,
-                text: "50 " + options.textProvider.rowsPerPage
-            }, {
-                value: 100,
-                text: "100 " + options.textProvider.rowsPerPage
-            }, {
-                value: 500,
-                text: "500 " + options.textProvider.rowsPerPage
-            }, {
-                value: -1,
-                text: options.textProvider.allRows
-            }]);
+            crudSettings.selectPageSizes.forEach(function (it, i) {
+                var t;
+
+                if (it > 0) {
+                    t = it + " " + options.textProvider.rowsPerPage;
+                } else {
+                    t = options.textProvider.allRows;
+                }
+
+                sizes.push({
+                    value: it,
+                    text: t
+                });
+            });
+
+            options.crud.pageSizes = ko.obsa(sizes);
             options.crud.pageSize.subscribe(function (newValue) {
                 me.options.wrapper[options.names.pagerName].pageSize(newValue);
                 me.options.wrapper[gridName].pageSize(newValue);
@@ -906,7 +922,7 @@ ejs.crud.pureRenderer = function (options) {
                         }
                         break;
                     default:
-                        html.push("<input type='text' data-bind='value: ", rootPath, ".", options.names.filterName, ".", name, ".value");
+                        html.push("<input type='text' data-bind='value: ", rootPath, ".", options.names.filterName, ".", name, ".value, valueUpdate: \"afterkeydown\"");
                         if (it.filterAutocomplete) {
                             html.push(", simpleAutocomplete: ", rootPath, ".", options.names.fnAutocompleteName, "(\"", name, "\")");
                         }
@@ -956,13 +972,19 @@ ejs.crud.pureRenderer = function (options) {
         html.push("<span data-bind='html: ", rootPath, ".", options.names.pagerName, ".shownTo'></span>");
         html.push(" <span>", options.textProvider.pager.from, " </span><span data-bind='html: ", rootPath, ".", options.names.pagerName, ".totalCount'></span>");
         if (options.selectPageSize) {
-            html.push(" &nbsp; <span>|</soan> <select data-bind='optionsValue: \"value\", optionsText: \"text\", options: $root.", options.names.crudName, ".pageSizes, value: $root.", options.names.crudName, ".pageSize'></select>");
+            html.push(" &nbsp; <span>|</span> <select data-bind='optionsValue: \"value\", optionsText: \"text\", options: $root.", options.names.crudName, ".pageSizes, value: $root.", options.names.crudName, ".pageSize'></select>");
         }
         html.push("</div>");
         if (options.create) {
-            html.push("<div class='insert'><a class='icon insert text' href='javascript:' data-bind='click: ", rootPath, ".", options.names.fnCreateName, "'><span>");
-            html.push(options.textProvider.insertNew);
-            html.push("</span></a></div>");
+            html.push("<div class='insert'><a class='icon insert text' href='");
+
+            if (options.createLink) {
+                html.push(options.createLink, "'");
+            } else {
+                html.push("javascript:' data-bind='click: ", rootPath, ".", options.names.fnCreateName, "'");
+            }
+
+            html.push("><span>", options.textProvider.insertNew, "</span></a></div>");
         }
         html.push("<div class='pages' data-bind='foreach: ", rootPath, ".", options.names.pagerName, ".pages'>");
         html.push("<a href='javascript:' data-bind='html: text, click: go, css: { selected: selected }'></a></div>");
@@ -1029,7 +1051,7 @@ ejs.crud.pureRenderer = function (options) {
                         break;
                     case "checkbox":
                     case "bool":
-                        html.push("<input type='checkbox' disabled='disabled' data-bind='checked: $data.", val, "'");
+                        html.push("<input type='checkbox' disabled='disabled' data-bind='checked: $data.", val, "'/>");
                         break;
                     default:
                         html.push("<span data-bind='html: ", val.startsWith("$") ? val : "$data." + val, "'></span>");
@@ -1044,9 +1066,23 @@ ejs.crud.pureRenderer = function (options) {
             html.push(t);
         } else {
             if (options.edit) {
-                html.push("<a href='javascript:' title='", options.disabled ? options.textProvider.viewRow : options.textProvider.editRow, "' class='icon ");
+                html.push("<a ");
+
+                if (!options.editLink || typeof options.editLink == "function") {
+                    html.push("href='javascript:' ");
+                }
+
+                html.push("title='", options.disabled ? options.textProvider.viewRow : options.textProvider.editRow, "' class='icon ");
                 html.push(options.disabled ? "view" : "edit");
-                html.push("' data-bind='click: ", rootPath, ".", options.names.fnEditName, "'></a>");
+                html.push("' data-bind='");
+
+                if (options.editLink && typeof options.editLink != "function") {
+                    html.push("attr: { href: \"", options.editLink, "\".replace(/[{]id[}]/gi, $data.id()) }")
+                } else {
+                    html.push("click: ", rootPath, ".", options.names.fnEditName);
+                }
+
+                html.push("'></a>");
             }
             if (options.remove) {
                 html.push("<a href='javascript:' title='", options.textProvider.removeRow, "' class='icon remove' data-bind='click: ", rootPath, ".", options.names.fnRemoveName, "'></a>");
@@ -1064,6 +1100,7 @@ ejs.crud.pureRenderer = function (options) {
             ejs.openWindow(function (w) {
                 $(w.document).find("title").html($("title").html());
                 $(w.document).find("body").html(options.wrapper[gridName].print(onlySelected));
+                me.events.printing.raise({ document: w.document });
                 w.print();
                 if (!onlySelected || pager.settings.pageSize != size) {
                     pager.settings.pageSize = size;
@@ -1189,6 +1226,7 @@ ejs.crud.defaultEditor = function (options, override) {
     var editColumns
     var editColumns = [];
     var dialog = null;
+    var isDialogButton = false;
     var parent = null;
     var tabs = null;
     var filesInProgress = [];
@@ -1236,10 +1274,13 @@ ejs.crud.defaultEditor = function (options, override) {
             modal: true,
             resizabe: true,
             draggable: true,
+            maxHeight: $(window).height() - 140,
             width: options.width || 700,
-            position: ["center", 70],
-            open: function () {
-                $(this).parent().children(':first').children('a').remove();
+            close: function () {
+                if (!isDialogButton) {
+                    me.cancel();
+                }
+                isDialogButton = false;
             },
             buttons: me.createDialogButtons(),
             resize: function (event, ui) { dialog.css("max-height", "none"); }
@@ -1378,6 +1419,7 @@ ejs.crud.defaultEditor = function (options, override) {
     me.close = function () {
         options.koModel.onFileUploaded.detach(me.onFileUploaded);
         options.koModel.onFileSelected.detach(me.onFileSelected);
+        isDialogButton = true;
         dialog.dialog("close");
     };
 
@@ -1831,6 +1873,9 @@ ejs.crud.defaultTextProvider = function (options) {
     me.show = "Показать";
     me.rowsPerPage = "строк на странице";
     me.allRows = "Все данные";
+    me.sortAsc = "Сортировать А-Я";
+    me.sortDesc = "Сортировать Я-А";
+    me.sortRemove = "Убрать сортировку";
 
     me.bool = {};
     me.bool.yes = me.bool["true"] = "Да";
@@ -1850,4 +1895,10 @@ ejs.crud.defaultTextProvider = function (options) {
 
 ejs.crud.getDefaultTextProvider = function (options) {
     return new ejs.crud.defaultTextProvider();
+};
+
+ejs.crud.getDefaultSettings = function () {
+    return {
+        selectPageSizes: [10, 20, 30, 50, 100, 500, -1]
+    };
 };

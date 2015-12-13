@@ -1,0 +1,343 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/ejs.grid2.css")" rel="stylesheet" />
+    <style type="text/css">
+        body
+        {
+            background-color: white;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ejsgrid2" style="width:1140px; height:665px;" id="divCrud"></div>
+    @*<div class="ejsgrid2" style="width:1140px; height:665px;" id="divGrid">
+            <div class="ejsgrid-menu">
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="javascript:" class="ejsgrid-a-order" data-direction="asc"><i class="fa fa-sort-alpha-asc"></i> Sort ascending</a></li>
+                    <li><a tabindex="-1" href="javascript:" class="ejsgrid-a-order" data-direction="desc"><i class="fa fa-sort-alpha-desc"></i> Sort dending</a></li>
+                    <li><a tabindex="-1" href="javascript:" class="ejsgrid-a-order" data-direction="remove"><i class="fa fa-remove"></i> Remove sorting</a></li>
+                    <li><a tabindex="-1" href="javascript:" class="ejsgrid-a-filter"><i class="fa fa-filter"></i> Show filter</a></li>
+                    <li>
+                        <div class="ejsgrid-menu-columns">
+                            <label class="checkbox" data-col="col1">
+                                <input type="checkbox" />
+                                <span>Column number 1</span>
+                            </label>
+                            <label class="checkbox" data-col="col2">
+                                <input type="checkbox" />
+                                <span>Column number 2</span>
+                            </label>
+                            <label class="checkbox" data-col="col3">
+                                <input type="checkbox" />
+                                <span>Column number 3</span>
+                            </label>
+                            <label class="checkbox" data-col="col4">
+                                <input type="checkbox" />
+                                <span>Column number 4</span>
+                            </label>
+                            <label class="checkbox" data-col="col5">
+                                <input type="checkbox" />
+                                <span>Column number 5</span>
+                            </label>
+                            <label class="checkbox" data-col="col6">
+                                <input type="checkbox" />
+                                <span>Column number 6</span>
+                            </label>
+                            <label class="checkbox" data-col="col7">
+                                <input type="checkbox" />
+                                <span>Column number 7</span>
+                            </label>
+                            <label class="checkbox" data-col="col8">
+                                <input type="checkbox" />
+                                <span>Column number 8</span>
+                            </label>
+                            <label class="checkbox" data-col="col9">
+                                <input type="checkbox" />
+                                <span>Column number 9</span>
+                            </label>
+                            <label class="checkbox" data-col="col10">
+                                <input type="checkbox" />
+                                <span>Column number 10</span>
+                            </label>
+                            <label class="checkbox" data-col="col11">
+                                <input type="checkbox" />
+                                <span>Column number 11</span>
+                            </label>
+                            <label class="checkbox" data-col="col12">
+                                <input type="checkbox" />
+                                <span>Column number 12</span>
+                            </label>
+                        </div>
+                    </li>
+                    <li><a tabindex="-1" href="javascript:" class="ejsgrid-a-save"><i class="fa fa-save"></i> Save column sizes</a></li>
+                </ul>
+            </div>
+            <div class="ejsgrid-scroll-vertical">
+                <div></div>
+            </div>
+            <div class="ejsgrid-header">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th data-col="col0" class="ejsgrid-th-actions">
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">
+                                    <a href="javascript:" class="ejsgrid-a-filter">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                    <a href="javascript:" class="ejsgrid-a-save">
+                                        <i class="fa fa-save"></i>
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </a>
+                                </span>
+                            </th>
+                            <th data-col="col1" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 1</span>
+                            </th>
+                            <th data-col="col2" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 2</span>
+                            </th>
+                            <th data-col="col3" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 3</span>
+                            </th>
+                            <th data-col="col4" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 4</span>
+                            </th>
+                            <th data-col="col5" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 5</span>
+                            </th>
+                            <th data-col="col6" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 6</span>
+                            </th>
+                            <th data-col="col7" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 7</span>
+                            </th>
+                            <th data-col="col8" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 8</span>
+                            </th>
+                            <th data-col="col9" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 9</span>
+                            </th>
+                            <th data-col="col10" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 10</span>
+                            </th>
+                            <th data-col="col11" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 11</span>
+                            </th>
+                            <th data-col="col12" class="ejsgrid-th-orderable">
+                                <span class="order">
+                                    <i class="fa fa-caret-down"></i>
+                                    <i class="fa fa-caret-up"></i>
+                                </span>
+                                <span class="menu"><a href="javascript:"><i class="fa fa-cog"></i></a></span>
+                                <span class="col">Column number 12</span>
+                            </th>
+                        </tr>
+                        <tr class="ejsgrid-tr-filter">
+                            <td data-col="col0">
+                                <div class="col">
+                                    <a href="javascript:" class="ejsgrid-a-apply-filter">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a href="javascript:" class="ejsgrid-a-cancel-filter">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td data-col="col1">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col2">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col3">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col4">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col5">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col6">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col7">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col8">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col9">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col10">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col11">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                            <td data-col="col12">
+                                <div class="col">
+                                    <input type="text" class="form-control input-sm" />
+                                </div>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="ejsgrid-grid">
+                <table class="table table-bordered ejsgrid-table">
+                    <tbody data-bind="template: { name: 'scrGridRow', foreach: $root.rows }"></tbody>
+                </table>
+            </div>
+            <div class="ejsgrid-scroll-horizontal">
+                <div></div>
+            </div>
+            <div class="ejsgrid-footer">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/html" class="ejsgrid-row-template" id="scrGridRow">
+            <tr>
+                <td data-col="col0">
+                    <div class="col">
+                        <input type="checkbox" />
+                    </div>
+                </td>
+                <td data-col="col1"><div class="col">Value 1</div></td>
+                <td data-col="col2"><div class="col">Value 2</div></td>
+                <td data-col="col3"><div class="col">Value 3</div></td>
+                <td data-col="col4"><div class="col">Value 4</div></td>
+                <td data-col="col5"><div class="col">Value 5</div></td>
+                <td data-col="col6"><div class="col">Value 6</div></td>
+                <td data-col="col7"><div class="col">Value 7</div></td>
+                <td data-col="col8"><div class="col">Value 8</div></td>
+                <td data-col="col9"><div class="col">Value 9</div></td>
+                <td data-col="col10"><div class="col">Value 10</div></td>
+                <td data-col="col11"><div class="col">Value 11</div></td>
+                <td data-col="col12"><div class="col">Value 12</div></td>
+            </tr>
+        </script>*@
+    <script type="text/html" id="scrData">
+        @MvcHtmlString.Create(ViewBag.Data)
+    </script>
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/knockout-3.2.0.js")"></script>
+    <script src="@Url.Content("~/Scripts/linq.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/core.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/ko.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/jq.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/pager.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/entity.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/set.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/model.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/grid2.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/crud.js")"></script>
+    <script src="@Url.Content("~/Scripts/EntityJs/crud.grid2.js")"></script>
+    <script src="@Url.Content("~/Scripts/Views/Home/Grid2.js")"></script>
+</body>
+</html>

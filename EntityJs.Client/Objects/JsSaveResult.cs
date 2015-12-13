@@ -14,6 +14,7 @@ namespace EntityJs.Client.Objects
             this.Maps = new List<JsIDMap>();
             this.Objects = new List<JsEntityObjectContainer>();
             this.CanceledObjects = new List<JsEntityObjectContainer>();
+            this.DeletedIDs = new List<long>();
             this.Errors = new List<string>();
         }
 
@@ -38,6 +39,12 @@ namespace EntityJs.Client.Objects
             protected set;
         }
 
+        public List<long> DeletedIDs
+        {
+            get;
+            protected set;
+        }
+
         public List<String> Errors
         {
             get;
@@ -52,7 +59,8 @@ namespace EntityJs.Client.Objects
                 Maps = this.Maps,
                 Data = this.Data,
                 Objects = this.Objects.Select(val => val.ToJson()).ToList(),
-                CanceledObjects = CanceledObjects.Select(val => val.ToJson()).ToList()
+                CanceledObjects = CanceledObjects.Select(val => val.ToJson()).ToList(),
+                DeletedIDs
             };
         }
     }

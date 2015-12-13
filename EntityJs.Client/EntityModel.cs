@@ -48,6 +48,66 @@ namespace EntityJs.Client
             protected set;
         }
 
+        public IQueryable SelectQuery(string EntitySetName, string EntityName, Objects.WhereCollection Where = null, Objects.OrderCollection Order = null)
+        {
+            IQueryable result;
+            PropertyInfo propertyInfo = context.GetType().GetProperty(EntitySetName);
+            Type entityType = (propertyInfo.PropertyType).GetGenericArguments()[0];
+            dynamic entitySet = propertyInfo.GetValue(context, null);
+
+            result = entitySet;
+
+            if (this.WhereMethods.ContainsKey(""))
+            {
+                result = this.WhereMethods[""](result, new List<Objects.WhereParameter>());
+            }
+
+            WhereParameter prm = Where != null ? Where.Parameters.FirstOrDefault(val => val.Property == "Distinct") : null;
+
+            if (prm != null)
+            {
+                Where.Parameters.Remove(prm);
+            }
+
+            if (Where != null && Order != null)
+            {
+                result = Where.AddWhere(result, this, EntityName, this.WhereMethods);
+                result = Order.AddOrder(result, this, EntityName, this.OrderMethods);
+            }
+            else if (Where != null)
+            {
+                result = Where.AddWhere(result, this, EntityName, this.WhereMethods);
+                result = result.OrderBy("it." + IDKey);
+            }
+            else if (Order != null)
+            {
+                result = Order.AddOrder(result, this, EntityName, this.OrderMethods);
+            }
+            else
+            {
+                result = result.OrderBy("it." + IDKey);
+            }
+
+            if (prm != null)
+            {
+                IQueryable q = EntityJs.Client.Dynamic.DynamicQueryable.GroupBy(result, prm.Value.ToString(), "it", null);
+
+                q = q.Select("it.FirstOrDefault()");
+                result = q as IQueryable<EntityObject>;
+
+                if (Order != null)
+                {
+                    result = Order.AddOrder(result, this, EntityName, this.OrderMethods);
+                }
+                else
+                {
+                    result = result.OrderBy("it." + IDKey);
+                }
+            }
+
+            return result;
+        }
+
         public Dictionary<string, List<EntityObject>> Select(string EntitySetName, string EntityName, Objects.IncludeCollection Include = null, Objects.WhereCollection Where = null, Objects.OrderCollection Order = null, int Skip = -1, int Take = -1, string WhereMethod = null, string OrderMethod = null)
         {
             int count;
@@ -67,7 +127,6 @@ namespace EntityJs.Client
             dynamic entitySet = propertyInfo.GetValue(context, null);
             Events.CheckPermissionsEventArgs e;
             Dictionary<string, List<EntityObject>> fullResult = new Dictionary<string, List<EntityObject>>();
-            result = entitySet;
 
             if (dynamicEntity)
             {
@@ -78,9 +137,10 @@ namespace EntityJs.Client
                     {
                         continue;
                     }
-                    result = entitySet.Include(include);
+                    entitySet = entitySet.Include(include);
                 }
             }
+            result = entitySet;
 
             if (Include != null)
             {
@@ -97,6 +157,11 @@ namespace EntityJs.Client
             if (prm != null)
             {
                 Where.Parameters.Remove(prm);
+            }
+
+            if (WhereMethod.IsNotNullOrEmpty() && Where == null)
+            {
+                Where = new WhereCollection();
             }
 
             if (Where != null && Order != null)
@@ -192,6 +257,8 @@ namespace EntityJs.Client
                 fullResult[key] = fullResult[key].Distinct().ToList();
             }
 
+            this.ModelEvents.OnDataSelected(this, new EventArgs());
+
             return fullResult;
         }
 
@@ -247,7 +314,13 @@ namespace EntityJs.Client
                         continue;
                     }
 
-                    entityPropertyInfo.SetValue(newEntity, ConvertValue(item.Value, entityPropertyInfo.PropertyType), null);
+                    object newValue = ConvertValue(item.Value, entityPropertyInfo.PropertyType);
+                    //object oldValue = entityPropertyInfo.GetValue(newEntity, null);
+                    if (newValue == null && entityPropertyInfo.GetValue(newEntity, null) == null)
+                    {
+                        continue;
+                    }
+                    entityPropertyInfo.SetValue(newEntity, newValue, null);
                 }
             }
 
@@ -470,7 +543,7 @@ namespace EntityJs.Client
             return false;
         }
 
-        protected virtual Type GetEntityType(string TypeName)
+        public virtual Type GetEntityType(string TypeName)
         {
             Type entityType;
 
@@ -598,7 +671,16 @@ namespace EntityJs.Client
                     }
                     else if (ToType == typeof(TimeSpan))
                     {
-                        return TimeSpan.Parse(Value as string);
+                        TimeSpan result;
+                        if (TimeSpan.TryParse(Value as string, out result))
+                        {
+                            return result;
+                        }
+                        int[] parts = Value.ToString().Trim().Split(new[] { ':', ',', '.' }, StringSplitOptions.RemoveEmptyEntries).Select(val => val.ToInt()).ToArray();
+                        result = TimeSpan.FromHours(parts.FirstOrDefault());
+                        result = result.Add(TimeSpan.FromMinutes(parts.ElementAtOrDefault(1)));
+                        result = result.Add(TimeSpan.FromSeconds(parts.ElementAtOrDefault(2)));
+                        return result;
                     }
                     else if (ToType == typeof(Boolean))
                     {

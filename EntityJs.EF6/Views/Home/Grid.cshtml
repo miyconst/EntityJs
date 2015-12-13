@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Grid";
+    Random rand = new Random();
+}
+<script src="@Url.Content("~/Scripts/Views/Home/Grid.js?v=" + rand.Next(10000))" type="text/javascript"></script>
+<div style="overflow:auto" id="divCrud" class="ejsgrid scroll beige"></div>
+<div>
+    <button data-bind="click: $root.restore">Restore changes</button>
+    <button data-bind="click: $root.crud.getPager().next">Next</button>
+    <button data-bind="click: $root.crud.getPager().previous">Previous</button>
+</div>

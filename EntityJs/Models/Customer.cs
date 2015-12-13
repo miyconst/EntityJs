@@ -16,8 +16,8 @@ namespace EntityJs.Models
                 this.Surname,
                 this.Phone,
                 this.Email,
-                TimeFrom = this.TimeFrom != null ? this.TimeFrom.Value.ToString("HH:mm") : string.Empty,
-                TimeTo = this.TimeTo != null ? this.TimeTo.Value.ToString("HH:mm") : string.Empty,
+                TimeFrom = this.TimeFrom != null ? this.TimeFrom.Value.ToString(@"hh\:mm") : string.Empty,
+                TimeTo = this.TimeTo != null ? this.TimeTo.Value.ToString(@"hh\:mm") : string.Empty,
             };
         }
 

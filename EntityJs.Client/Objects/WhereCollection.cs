@@ -28,21 +28,27 @@ namespace EntityJs.Client.Objects
         public dynamic AddWhere<TModel>(dynamic Query, EntityModel<TModel> Model, string EntityName, Dictionary<string, Func<dynamic, List<WhereParameter>, dynamic>> Methods, string Method = null)
             where TModel : System.Data.Objects.ObjectContext
         {
-            if (!this.Parameters.Any())
-            {
-                return Query;
-            }
-
             if (Method.IsNotNullOrEmpty())
             {
                 return Methods[Method](Query, this.Parameters);
             }
 
+            if (!this.Parameters.Any())
+            {
+                return Query;
+            }
+
             List<ObjectParameter> prms = new List<ObjectParameter>();
             String whereString = BuildWhereString(prms, Model, EntityName);
-            dynamic result = Dynamic.DynamicQueryable.Where(Query, whereString, prms.ToArray());
 
-            return result;
+            if (whereString.IsNotNullOrEmpty())
+            {
+                return Dynamic.DynamicQueryable.Where(Query, whereString, prms.ToArray());
+            }
+            else
+            {
+                return Query;
+            }
         }
 
         public string BuildWhereString<TModel>(List<ObjectParameter> OutputParameters, EntityModel<TModel> Model, string EntityName)

@@ -1,11 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs", "EntityJs\EntityJs.csproj", "{64C2292F-CC72-40B5-9CD4-FCFBEB29CE18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.Client", "EntityJs.Client\EntityJs.Client.csproj", "{478E3899-0320-4DD5-A476-05F718C50AD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.Documentation", "EntityJs.Documentation\EntityJs.Documentation.csproj", "{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{93F6225F-3D53-4131-B734-635896A8D477}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.Client.EF6", "EntityJs.Client.EF6\EntityJs.Client.EF6.csproj", "{7C5A2143-F99D-4D12-9F98-2918D96170FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityJs.EF6", "EntityJs.EF6\EntityJs.EF6.csproj", "{730B4436-85BE-43DE-97F4-265D23E889CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +60,26 @@ Global
 		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D7CD959B-990C-4CCD-BA4D-91D9F68A912B}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7C5A2143-F99D-4D12-9F98-2918D96170FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{730B4436-85BE-43DE-97F4-265D23E889CA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

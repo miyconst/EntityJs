@@ -1,0 +1,523 @@
+﻿/*-- File version 0.0.0.8 from 2012.10.19 --*/
+/*-- Begin default style --*/
+div.ejsgrid
+{
+    overflow:auto;
+}
+
+div.ejsgrid thead
+{
+    padding:0px;
+    margin:0px;
+    color:white;
+}
+
+div.ejsgrid thead th
+{
+    padding:0px;
+    text-align:left;
+    font-weight:bold;
+    color:white;
+    border:1px solid black;
+    background-color:#808080;
+    position:relative;
+}
+
+div.ejsgrid thead th span.th
+{
+    overflow:hidden;
+    display:block;
+    margin:-1px;
+}
+
+div.ejsgrid thead th span.th.orderable
+{
+    cursor:pointer;
+}
+
+div.ejsgrid thead th span.th.active
+{
+    background-color: #FFFFCC;
+    color: black;
+}
+
+div.ejsgrid thead th span.th.hover
+{
+    background-color: #CCFFCC;
+    color: black;
+}
+
+div.ejsgrid thead th span.th span.text
+{
+    padding:10px;
+    display:block;
+}
+
+div.ejsgrid .icon
+{
+    background-position:left center;
+    display: inline-block;
+    height: 16px;
+    width:auto;
+    padding-left:16px;
+    background-repeat: no-repeat;
+    line-height:16px;
+    text-decoration:none;
+    color:#333333;
+}
+
+div.ejsgrid a.icon:hover
+{
+    text-decoration:underline;
+}
+
+div.ejsgrid .icon.text
+{
+    padding-left:22px;
+}
+
+div.ejsgrid a.save
+{
+    background-image: url('images/ejs/save.png');
+}
+
+div.ejsgrid a.edit
+{
+    background-image: url('images/ejs/edit.png');
+}
+
+div.ejsgrid a.remove
+{
+    background-image: url('images/ejs/remove.png');
+}
+
+div.ejsgrid a.insert
+{
+    background-image: url('images/ejs/insert.png');
+}
+
+div.ejsgrid span.loading
+{
+    background-image: url('images/ejs/loading.gif');
+}
+
+table.ejsgrid
+{
+    border-collapse:collapse;
+    border:none;
+    padding:0px;
+    margin:0px;
+}
+
+table.ejsgrid td
+{
+    padding:10px;
+    border:1px solid #808080;
+    background-color:white;
+}
+
+table.ejsgrid td.pager
+{
+    border:none;
+    position:relative;
+    padding:0px;
+}
+
+table.ejsgrid td div.td
+{
+    overflow:hidden;
+}
+
+table.ejsgrid div.pager
+{
+    background-color:transparent;
+    border:1px solid #808080;
+    overflow:hidden;
+    padding:10px;
+}
+
+table.ejsgrid div.pager div.shown
+{
+    float:left;
+}
+
+table.ejsgrid div.pager div.insert
+{
+    float:right;
+}
+
+table.ejsgrid div.pager div.pages
+{
+    text-align:center;
+}
+
+table.ejsgrid div.pager div.pages a
+{
+    display:inline-block;
+    text-decoration:none;
+    color:#333333;
+    background-color:#F0F0F0;
+    border:1px solid #C0C0C0;
+    margin:0px 3px;
+    padding:0px 3px;
+    border-radius:3px;
+}
+
+table.ejsgrid div.pager div.pages a.selected
+{
+    background-color:#808080;
+    color:white;
+    font-weight:bold;
+}
+
+table.ejsgrid tr.foot td
+{
+    padding-top:0px!important;
+    padding-bottom:0px!important;
+    border-bottom:none!important;
+    border-top:none!important;
+}
+
+.ejs-resizable-helper
+{
+    border:2px dotted yellow;
+}
+
+ul.ejsgrid-menu
+{
+    list-style-type:none;
+    position:absolute;
+    background-color:#F0F0F0;
+    border:1px solid #C0C0C0;
+    padding:5px;
+    border-radius:2px;
+    display:none;
+}
+
+ul.ejsgrid-menu li
+{
+    margin:2px 0px;
+}
+
+ul.ejsgrid-menu li.button
+{
+    float:right;
+}
+/*-- End default style --*/
+/*-- Begin black style --*/
+div.ejsgrid.black
+{
+    background: #4c4c4c;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzRjNGM0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ4JSIgc3RvcC1jb2xvcj0iIzFjMWMxYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMzEzMTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #4c4c4c 0%, #1c1c1c 48%, #131313 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(48%,#1c1c1c), color-stop(100%,#131313));
+    background: -webkit-linear-gradient(top,  #4c4c4c 0%,#1c1c1c 48%,#131313 100%);
+    background: -o-linear-gradient(top,  #4c4c4c 0%,#1c1c1c 48%,#131313 100%);
+    background: -ms-linear-gradient(top,  #4c4c4c 0%,#1c1c1c 48%,#131313 100%);
+    background: linear-gradient(to bottom,  #4c4c4c 0%,#1c1c1c 48%,#131313 100%);
+    padding:5px;
+    border-radius:2px;
+    box-shadow:0px 0px 5px #333333;
+    display:inline-block;
+}
+
+div.ejsgrid.black div.ejsgrid-header table
+{
+    background: #e1e6eb;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2UxZTZlYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2I0YzVjZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkOGU1ZWIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #e1e6eb 0%, #b4c5cf 50%, #d8e5eb 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e1e6eb), color-stop(50%,#b4c5cf), color-stop(100%,#d8e5eb));
+    background: -webkit-linear-gradient(top,  #e1e6eb 0%,#b4c5cf 50%,#d8e5eb 100%);
+    background: -o-linear-gradient(top,  #e1e6eb 0%,#b4c5cf 50%,#d8e5eb 100%);
+    background: -ms-linear-gradient(top,  #e1e6eb 0%,#b4c5cf 50%,#d8e5eb 100%);
+    background: linear-gradient(to bottom,  #e1e6eb 0%,#b4c5cf 50%,#d8e5eb 100%);
+}
+
+div.ejsgrid.black table.ejsgrid td,
+div.ejsgrid.black div.ejsgrid-header table td
+{
+    border:1px solid #f0f0f0;
+}
+
+div.ejsgrid.black div.ejsgrid-header table td
+{
+    border-bottom:1px solid #84b0ca;
+}
+
+div.ejsgrid.black div.ejsgrid-header table td div.col
+{
+    color:black;
+    font-weight:normal;
+}
+
+div.ejsgrid.black div.ejsgrid-header table td div.col div.text
+{
+    padding:5px;
+}
+
+div.ejsgrid.black table.ejsgrid td
+{
+    padding:5px;
+}
+
+div.ejsgrid.black table.ejsgrid tbody:nth-child(odd) tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.black table.ejsgrid tr td
+{
+    background-color:#e5e5e5;
+}
+
+div.ejsgrid.black table.ejsgrid td.pager
+{
+    background: #dbdbdb;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2RiZGJkYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNiNWI1YjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #dbdbdb 0%, #b5b5b5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbdbdb), color-stop(100%,#b5b5b5));
+    background: -webkit-linear-gradient(top,  #dbdbdb 0%,#b5b5b5 100%);
+    background: -o-linear-gradient(top,  #dbdbdb 0%,#b5b5b5 100%);
+    background: -ms-linear-gradient(top,  #dbdbdb 0%,#b5b5b5 100%);
+    background: linear-gradient(to bottom,  #dbdbdb 0%,#b5b5b5 100%);
+}
+
+div.ejsgrid.black table.ejsgrid td.pager div.pager
+{
+    padding:8px 5px 4px 5px;
+    color:black;
+}
+
+div.ejsgrid.black table.ejsgrid td.pager div.pager div.pages a
+{
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM5JSIgc3RvcC1jb2xvcj0iIzU5NTk1OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY2JSIgc3RvcC1jb2xvcj0iIzE5MTkxOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #595959 39%, #191919 66%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(39%,#595959), color-stop(66%,#191919));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#595959 39%,#191919 66%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#595959 39%,#191919 66%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#595959 39%,#191919 66%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#595959 39%,#191919 66%);
+    color:white;
+    border-radius:0px;
+    border:1px solid black;
+    padding:2px 6px;
+    margin:1px;
+}
+
+div.ejsgrid.black table.ejsgrid td.pager div.pager div.pages a.selected
+{
+    background:none;
+    background-color:white;
+    color:black;
+}
+/*-- End black style --*/
+
+/*-- Begin lime style --*/
+div.ejsgrid.lime
+{
+}
+
+div.ejsgrid.lime div.ejsgrid-header table
+{
+    background-color: #C9E38A;
+}
+
+div.ejsgrid.lime table.ejsgrid td,
+div.ejsgrid.lime div.ejsgrid-header table td
+{
+    border:1px solid #a0a0a0;
+}
+
+div.ejsgrid.lime div.ejsgrid-header table td
+{
+}
+
+div.ejsgrid.lime div.ejsgrid-header table td div.col
+{
+    color:black;
+    font-weight:normal;
+}
+
+div.ejsgrid.lime div.ejsgrid-header table td div.col div.text
+{
+}
+
+div.ejsgrid.lime table.ejsgrid td
+{
+}
+
+div.ejsgrid.lime table.ejsgrid tbody:nth-child(odd) tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.lime table.ejsgrid tr td
+{
+    background-color: #F9FFEA;
+}
+
+div.ejsgrid.lime table.ejsgrid td.pager
+{
+    background-color:white;
+}
+
+div.ejsgrid.lime table.ejsgrid td.pager div.pager
+{
+}
+
+div.ejsgrid.lime table.ejsgrid td.pager div.pager div.pages a
+{
+    background: #ffffff;
+    border:1px solid black;
+    padding:2px 6px;
+    margin:1px;
+}
+
+div.ejsgrid.lime table.ejsgrid td.pager div.pager div.pages a.selected
+{
+    background-color:#a6d342;
+    color:black;
+    font-weight:bold;
+}
+/*-- End lime style --*/
+
+/*-- Begin beige style --*/
+div.ejsgrid.beige
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table
+{
+    background-color: #f3f4ee;
+}
+
+div.ejsgrid.beige table.ejsgrid td,
+div.ejsgrid.beige div.ejsgrid-header table td
+{
+    border:1px solid #dfe0db;
+    border-top:none;
+    border-bottom:none;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td:first-child
+{
+    border-left-color:transparent;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td:last-child
+{
+    border-right-color:transparent;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col
+{
+    color:black;
+    font-weight:normal;
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col.orderable
+{
+}
+
+div.ejsgrid.beige div.ejsgrid-header table td div.col div.text
+{
+    font-weight:bold;
+    padding:5px;
+}
+
+div.ejsgrid.beige table.ejsgrid td
+{
+    border:1px solid #ccc;
+    padding:5px 5px 5px 6px;
+    border-left:none;
+    border-right:none;
+}
+
+div.ejsgrid.beige table.ejsgrid tbody:nth-child(odd) tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.beige table.ejsgrid tr td
+{
+    background-color:white;
+}
+
+div.ejsgrid.beige table.ejsgrid tbody:nth-child(odd) tr.selected td,
+div.ejsgrid.beige table.ejsgrid tr.selected td
+{
+    background-color:#e3e4de;
+}
+
+div.ejsgrid.beige table.ejsgrid tbody:nth-child(odd) tr.invalid td, 
+div.ejsgrid.beige table.ejsgrid tr.invalid td
+{
+    background-color: #FFCCCC;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager
+{
+    padding:0px;
+    border:none;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager
+{
+    background-color:#f3f4ee;
+    padding:0px;
+    padding:5px;
+    border:none;
+    border-top:1px solid #ccc;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.shown,
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.insert
+{
+    margin-top:3px;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.pages a
+{
+    background: #ffffff;
+    border:1px solid #A0A0A0;
+    padding:2px 6px;
+    margin:1px;
+}
+
+div.ejsgrid.beige table.ejsgrid td.pager div.pager div.pages a.selected
+{
+    background-color:#a8cc48;
+    color:black;
+    font-weight:bold;
+}
+
+div.ejsgrid.beige table.ejsgrid td div.td a.icon
+{
+    margin-left:2px;
+}
+
+div.ejsgrid.beige a.save
+{
+    background-image: url('images/ejs/beige-save.png');
+}
+
+div.ejsgrid.beige a.edit
+{
+    background-image: url('images/ejs/beige-edit.png');
+}
+
+div.ejsgrid.beige a.remove
+{
+    background-image: url('images/ejs/beige-remove.png');
+}
+
+div.ejsgrid.beige a.insert
+{
+    background-image: url('images/ejs/beige-insert.png');
+}
+/*-- End beige style --*/

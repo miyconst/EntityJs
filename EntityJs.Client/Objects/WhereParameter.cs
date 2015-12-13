@@ -66,7 +66,14 @@ namespace EntityJs.Client.Objects
             switch (this.DataType)
             {
                 case DataTypesEnum.Date:
-                    return DateTime.Parse(this.Value.ToString());
+                    try
+                    {
+                        return DateTime.Parse(this.Value.ToString());
+                    }
+                    catch
+                    {
+                        return DateTime.Parse(this.Value.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+                    }
                 case DataTypesEnum.Time:
                     return TimeSpan.Parse(this.Value.ToString());
                 case DataTypesEnum.Number:
@@ -132,11 +139,16 @@ namespace EntityJs.Client.Objects
             {
                 //result.Append("SqlServer.ABS(SqlServer.DATEDIFF('DAY', it.").Append(this.Property).Append(", @").Append(this.Name).Append(")) < 1");
 
-                result.Append("(SqlFunctions.DateDiff(\"Day\", ").Append(this.ActionProperty).Append(", @").Append(this.Name).Append(") < 1 AND ");
-                result.Append("SqlFunctions.DateDiff(\"Day\", ").Append(this.ActionProperty).Append(", @").Append(this.Name).Append(") > -1)");
+                result.Append("SqlFunctions.DateDiff(\"Day\", ").Append(this.ActionProperty).Append(", @").Append(this.Name).Append(") == 0");
+                //result.Append("SqlFunctions.DateDiff(\"Day\", ").Append(this.ActionProperty).Append(", @").Append(this.Name).Append(") > -1)");
 
                 return result.ToString();
             }
+            //else if (this.DataType == DataTypesEnum.Date && this.Condition <= ConditionsEnum.Equals)
+            //{
+            //    result.Append("(SqlFunctions.DateDiff(\"Day\", ").Append(this.ActionProperty).Append(", @").Append(this.Name).Append(") >= 0");
+            //    return result.ToString();
+            //}
 
             result.Append(this.ActionProperty);
             if (!ap.Contains("{condition}"))

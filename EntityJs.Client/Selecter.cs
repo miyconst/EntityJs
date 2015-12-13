@@ -55,7 +55,7 @@ namespace EntityJs.Client
             {
                 order = new Objects.OrderCollection(Orders);
             }
-
+            
             var data = this.model.Select(EntitySetName, EntityName, out count, include, where, order, Skip, Take, WhereMethod, OrderMethod, Options.SelectMode);
             log.Add(string.Format("{0:hh:mm.ss:ffff} Select data selected", DateTime.Now));
 

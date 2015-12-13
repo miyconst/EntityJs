@@ -176,9 +176,19 @@ ejs.remotePager = function (params) {
 
     function getOrderBy() {
         var result = [];
-        var properties = me.orderBy().split(',');
+        var properties = me.orderBy().split(",");
 
-        properties.forEach(function (it) { result.push(ejs.createOrderParameter(it, me.orderDesc())); });
+        properties.forEach(function (it) {
+            var desc = me.orderDesc();
+
+            if (/ /gi.test(it)) {
+                it = it.split(" ");
+                desc = it[1] == "desc";
+                it = it[0];
+            }
+
+            result.push(ejs.createOrderParameter(it, desc));
+        });
 
         return result;
     }
@@ -232,6 +242,7 @@ ejs.remotePager = function (params) {
             var f = ejs.cwp(property, v, c, type, operand, action);
 
             if (type == "group") {
+                it.value = typeof it.value == "undefined" ? v : it.value;
                 f.SubParameters = getWhere(filters, it);
             }
 

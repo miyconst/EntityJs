@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Rating";
+    Random rand = new Random();
+}
+<script type="text/javascript">
+    var koModel = {
+        rows: ko.obsa([])
+    };
+    $(function () {
+        for (var i = 0; i < 20; i++) {
+            koModel.rows.push({ value: ko.obs(i % 20 + 1) });
+        }
+
+        ko.apply(koModel);
+    });
+</script>
+<div data-bind="foreach: $root.rows()">
+    <p>
+        <input type="text" data-bind="rating: { value: $data.value, size: 10, charWidth: 25, step: 4 }" />
+    </p>
+</div>

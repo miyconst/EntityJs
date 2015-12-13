@@ -36,23 +36,36 @@ namespace EntityJs.Client
             return result;
         }
 
-        public virtual JsonResult Select(JsSelectOptions Options)//string EntitySetName, string EntityName, Objects.JsIncludeParameter[] Includes = null, Objects.JsWhereParameter[] Wheres = null, Objects.JsOrderParameter[] Orders = null, int Skip = -1, int Take = -1, string WhereMethod = null, string OrderMethod = null)
+        public virtual ActionResult Select(JsSelectOptions Options)//string EntitySetName, string EntityName, Objects.JsIncludeParameter[] Includes = null, Objects.JsWhereParameter[] Wheres = null, Objects.JsOrderParameter[] Orders = null, int Skip = -1, int Take = -1, string WhereMethod = null, string OrderMethod = null)
         {
-            JsonResult result = new JsonResult();
+            string json = this.GetCache(Options);
+
+            if (json.IsNotNullOrEmpty())
+            {
+                return this.Content(json, "application/json");
+            }
+
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             Selecter<ObjectContext> selecter = new Selecter<ObjectContext>(model);
             JsSelectResult data = selecter.Select(Options);//EntitySetName, EntityName, Includes, Wheres, Orders, Skip, Take, WhereMethod, OrderMethod);
             List<string> log = data.Data as List<string>;
-            result.Data = new
-            {
-                code = 200,
-                result = data.ToJson()
-            };
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
             if (log != null)
             {
                 log.Add(string.Format("{0:hh:mm.ss:ffff} Select data serialized", DateTime.Now));
             }
-            return result;
+
+            var result = new
+            {
+                code = 200,
+                result = data.ToJson()
+            };
+
+            json = serializer.Serialize(result);
+
+            this.SetCache(json, Options);
+
+            return this.Content(json, "application/json");
         }
 
         public virtual JsonResult SaveUserSettings(string Name, string Value)
@@ -78,6 +91,16 @@ namespace EntityJs.Client
         public virtual ActionResult Empty(int ID)
         {
             throw new NotImplementedException();
+        }
+
+        protected virtual string GetCache(JsSelectOptions Options)
+        {
+            return null;
+        }
+
+        protected virtual void SetCache(string Json, JsSelectOptions Options)
+        {
+            return;
         }
 
         protected virtual EntityModel<ObjectContext> CreateModel()

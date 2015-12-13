@@ -32,7 +32,8 @@ namespace EntityJs.Client
             foreach (Objects.JsEntity item in Changes.Deleted)
             {
                 EntityObject entity = model.Delete(item.EntitySetName, item.EntityName, item.Values.FirstOrDefault(val => val.Key == model.IDKey).Value.ToString(), out r);
-                updateCanceled = updateCanceled || r == OperationResultsEnum.OperationCanceled;
+                PropertyInfo idprop = entity.GetType().GetProperty(model.IDKey);
+                
                 if (updateCanceled || r != OperationResultsEnum.Passed)
                 {
                     if (entity != null)
@@ -40,13 +41,25 @@ namespace EntityJs.Client
                         result.CanceledObjects.Add(new Objects.JsEntityObjectContainer(item.EntityName, item.EntitySetName, entity, item.EntityMode));
                     }
                 }
+                else 
+                {
+                    if (idprop.PropertyType == typeof(int))
+                    {
+                        result.DeletedIDs.Add((int)idprop.GetValue(entity, null));
+                    }
+                    else if (idprop.PropertyType == typeof(long))
+                    {
+                        result.DeletedIDs.Add((long)idprop.GetValue(entity, null));
+                    }
+                    
+                }
             }
             log.Add(string.Format("{0} Update Deleted processed", DateTime.Now));
 
             foreach (Objects.JsEntity item in Changes.Updated)
             {
                 Dictionary<string, object> values = item.Values.ToDictionary(val => val.Key, val => val.Value);
-                int id = values[model.IDKey].ToString().ToInt();
+                long id = Convert.ToInt64(values[model.IDKey]);
                 Objects.JsIDMap map;
                 EntityObject entity;
 
@@ -60,12 +73,35 @@ namespace EntityJs.Client
                     map.OldID = id;
                     result.Maps.Add(map);
                     entity = model.Insert(item.EntitySetName, item.EntityName, values, out r);
-                    map.NewID = (int)entity.GetType().GetProperty(model.IDKey).GetValue(entity, null);
+                    PropertyInfo idprop = entity.GetType().GetProperty(model.IDKey);
+                    if (idprop.PropertyType == typeof(int))
+                    {
+                        map.NewID = (int)idprop.GetValue(entity, null);
+                    }
+                    else if (idprop.PropertyType == typeof(long))
+                    {
+                        map.NewID = (long)idprop.GetValue(entity, null);
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid type for ID");
+                    }
                     entity.PropertyChanged += (sender, e) =>
                     {
                         if (e.PropertyName == model.IDKey)
                         {
-                            map.NewID = (int)entity.GetType().GetProperty(model.IDKey).GetValue(entity, null);
+                            if (idprop.PropertyType == typeof(int))
+                            {
+                                map.NewID = (int)idprop.GetValue(entity, null);
+                            }
+                            else if (idprop.PropertyType == typeof(long))
+                            {
+                                map.NewID = (long)idprop.GetValue(entity, null);
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid type for ID");
+                            }
                         }
                     };
                 }
