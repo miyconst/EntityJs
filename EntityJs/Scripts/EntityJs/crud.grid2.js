@@ -1,9 +1,10 @@
-﻿/*-- File version 0.0.0.1 from 2015.02.02 --*/
+﻿/*-- File version 0.0.0.3 from 2016.02.20 --*/
 ejs.crud.grid2Renderer = function (options) {
     var me = this;
     var uid = (new Date).getMilliseconds();
     var rootPath = "$root";
     var showColumns = [];
+    var showFilterName;
 
     function ctor() {
         me.options = options;
@@ -20,7 +21,7 @@ ejs.crud.grid2Renderer = function (options) {
         }
 
         options.wrapper[showFilterName] = function (name) {
-            var div = options.container.find("div.check-list." + name + ":first");
+            var div = options.container.find("div.ejsgrid-check-list." + name + ":first");
 
             if (!div.data("hover")) {
                 div.hover(function () {
@@ -198,17 +199,17 @@ ejs.crud.grid2Renderer = function (options) {
                     var op = it.filterOptionsParent || it.optionsParent;
                     var os = it.filterOptions || it.options;
 
-                    html.push("<input class='select form-control input-sm' readonly='readonly' type='text' data-bind='value: ", rootPath, ".", options.names.filterName, ".", name, ".valueString(), click: function() { ", rootPath, ".", showFilterName, "(&quot;", name, "&quot;); }'/>");
+                    html.push("<input class='ejsgrid-check-select form-control input-sm' readonly='readonly' type='text' data-bind='value: ", rootPath, ".", options.names.filterName, ".", name, ".valueString(), click: function() { ", rootPath, ".", showFilterName, "(&quot;", name, "&quot;); }'/>");
 
                     if (op) {
-                        html.push("<div class='check-list ", name, "' data-bind=''><dl data-bind='foreach: $root.", os, ".where(\"val=>!val.", op, "()\")'>");
+                        html.push("<div class='ejsgrid-check-list ", name, "' data-bind=''><dl data-bind='foreach: $root.", os, ".where(\"val=>!val.", op, "()\")'>");
                         html.push("<dt data-bind='html: $data.", ot, "'></dt>");
                         html.push("<!-- ko foreach: $root.", os, ".where(\"val=>val.", op, "()==\" + $data.", ov, "()) -->");
                         html.push("<dd><label><input type='checkbox' data-bind='checked: ", rootPath, ".", options.names.filterName, ".", name, ".value, value: $data.", ov, "().toString() + \"|\" + $data.", ot, "()'/> <span data-bind='html: $data.", ot, "'></span></label></dd>");
                         html.push("<!-- /ko -->");
                         html.push("</div>");
                     } else {
-                        html.push("<div class='check-list ", name, "' data-bind='foreach: $root.", os, "'><label><input type='checkbox' data-bind='checked: ", rootPath, ".", options.names.filterName, ".", name, ".value, value: $data.", ov, "().toString() + \"|\" + $data.", ot, "()'/> <span data-bind='html: $data.", ot, "'></span></label></div>");
+                        html.push("<div class='ejsgrid-check-list ", name, "' data-bind='foreach: $root.", os, "'><label><input type='checkbox' data-bind='checked: ", rootPath, ".", options.names.filterName, ".", name, ".value, value: $data.", ov, "().toString() + \"|\" + $data.", ot, "()'/> <span data-bind='html: $data.", ot, "'></span></label></div>");
                     }
                     break;
                 case "checkbox":
@@ -237,6 +238,10 @@ ejs.crud.grid2Renderer = function (options) {
     };
 
     me.renderFooter = function (html) {
+        if (options.noFooter) {
+            return "";
+        }
+
         html.push("<div class='ejsgrid-footer'>");
 
         html.push("<ul class='pagination'><li><a href='javascript:' data-bind='click: ", rootPath, ".", options.names.pagerName, ".previous'><span>&laquo;</span></a></li>");
@@ -270,39 +275,6 @@ ejs.crud.grid2Renderer = function (options) {
         }
 
         html.push("</div></div>");
-    };
-
-    me.renderTfoot = function () {
-        if (options.noFooter) {
-            return "";
-        }
-
-        var length = showColumns.length + 1;
-        var html = ["<tfoot><tr><td colspan='", length, "' class='pager'><div class='pager'><div class='shown'>"];
-        html.push(options.textProvider.pager.shown);
-        html.push(" <span data-bind='html: ", rootPath, ".", options.names.pagerName, ".shownFrom'></span><span>-</span>");
-        html.push("<span data-bind='html: ", rootPath, ".", options.names.pagerName, ".shownTo'></span>");
-        html.push(" <span>", options.textProvider.pager.from, " </span><span data-bind='html: ", rootPath, ".", options.names.pagerName, ".totalCount'></span>");
-        if (options.selectPageSize) {
-            html.push(" &nbsp; <span>|</soan> <select data-bind='optionsValue: \"value\", optionsText: \"text\", options: $root.", options.names.crudName, ".pageSizes, value: $root.", options.names.crudName, ".pageSize'></select>");
-        }
-        html.push("</div>");
-        if (options.create) {
-            html.push("<div class='insert'><a class='icon insert text' href='");
-
-            if (options.createLink) {
-                html.push(options.createLink, "'");
-            } else {
-                html.push("javascript:' data-bind='click: ", rootPath, ".", options.names.fnCreateName, "'");
-            }
-
-            html.push("><span>", options.textProvider.insertNew, "</span></a></div>");
-        }
-        html.push("<div class='pages' data-bind='foreach: ", rootPath, ".", options.names.pagerName, ".pages'>");
-        html.push("<a href='javascript:' data-bind='html: text, click: go, css: { selected: selected }'></a></div>");
-        html.push("</div>");
-        html.push("</td></tr></tfoot>");
-        return html.join("");
     };
 
     me.renderScript = function (html) {

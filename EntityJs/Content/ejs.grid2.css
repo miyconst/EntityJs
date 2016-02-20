@@ -1,4 +1,5 @@
-﻿.ejsgrid2
+﻿/*-- File version 0.0.0.1 from 2015.02.03 --*/
+.ejsgrid2
 {
     overflow:hidden;
 }
@@ -87,6 +88,30 @@
 .ejsgrid2 thead tr th.ejsgrid-th-desc .order .fa-caret-down
 {
     display:inline-block;
+}
+
+.ejsgrid2 thead input[type=text].ejsgrid-check-select[readonly]
+{
+    cursor:pointer;
+    background-color:white;
+}
+
+.ejsgrid2 thead .ejsgrid-check-list
+{
+    display:block;
+    position:absolute;
+    background-color:white;
+    padding:10px 10px 0px 10px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    display:none;
+}
+
+.ejsgrid2 thead .ejsgrid-check-list label
+{
+    display:block;
 }
 
 .ejsgrid2 .ejsgrid-menu ul.dropdown-menu
@@ -236,6 +261,17 @@
 {
     display:inline-block;
     width:auto;
+}
+
+.ejsgrid2 .ejsgrid-table tr td .checkbox.btn
+{
+    margin:0px;
+    min-height:22px;
+}
+
+.ejsgrid2 .ejsgrid-table tr td .checkbox.btn input[type=checkbox]
+{
+    margin:3px 0px 0px 1px;
 }
 
 .ejsgrid2 .ui-resizable-handle.ui-resizable-e
