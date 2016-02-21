@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.0.3 from 2016.02.20 --*/
+﻿/*-- File version 0.0.0.4 from 2016.02.21 --*/
 ejs.crud.grid2Renderer = function (options) {
     var me = this;
     var uid = (new Date).getMilliseconds();
@@ -104,7 +104,14 @@ ejs.crud.grid2Renderer = function (options) {
 
         grid.events.ordered.attach(function (e) {
             if (e.values.any()) {
-                pager.orderBy(e.values.select("val=>[val.col, val.order].join(' ')").join(","));
+                pager.orderBy(e.values.select(function (it, i) {
+                    var col = it.col;
+                    var col = options.columns.first("x=>x.name=='" + col + "'");
+
+                    col = col.orderBy || col.name;
+
+                    return [col, it.order].join(' ');
+                }).join(","));
             } else {
                 pager.orderBy("id asc");
             }
