@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.0.1 from 2015.01.21 --*/
+﻿/*-- File version 0.0.0.2 from 2016.08.28 --*/
 ejs.grid2 = function (options) {
     var me = this
     var uid = (new Date).getMilliseconds();
@@ -132,7 +132,7 @@ ejs.grid2 = function (options) {
 
         container.find(".ejsgrid-table tbody tr").each(function () {
             var tr = $(this);
-            if (onlySelected && !tr.find("td[data-col=Save] input").checked()) {
+            if (onlySelected && !tr.find("td[data-col=Save] input").get(0).checked) {
                 return;
             }
             html.push("<tr>");
@@ -143,8 +143,15 @@ ejs.grid2 = function (options) {
 
                 var td = tr.find("td[data-col=" + it.col + "]:first");
                 var text = td.text();
-                if (!text.length && td.find("input[type=checkbox]").checked()) {
-                    text = ejs.crud ? ejs.crud.getDefaultTextProvider().bool.yes : "True";
+
+                if (!text.length) {
+                    var checkbox = td.find("input[type=checkbox]");
+
+                    if (checkbox.size() && checkbox.get(0).checked) {
+                        text = ejs.crud ? ejs.crud.getDefaultTextProvider().bool.yes : "True";
+                    } else if (checkbox.size()) {
+                        text = ejs.crud ? ejs.crud.getDefaultTextProvider().bool.no : "False";
+                    }
                 }
                 html.push("<td>", text, "</td>");
             });
