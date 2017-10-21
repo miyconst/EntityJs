@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.0.8 from 2012.12.12 --*/
+﻿/*-- File version 0.0.0.9 from 2017.10.21 --*/
 ejs.entity = function (params) {
     var me = this;
     me.inParse = false;
@@ -67,7 +67,7 @@ ejs.entity = function (params) {
         detach: ejs.createEvent(),
         reattach: ejs.createEvent(),
         koCreated: ejs.createEvent(),
-        dispose: ejs.createEvent(),
+        dispose: ejs.createEvent()
     };
     me.hasChanges = false;
     me.removed = false;
