@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.0.11 from 2013.10.26 --*/
+﻿/*-- File version 0.0.0.12 from 2017.12.04 --*/
 ejs.remotePager = function (params) {
     var me = this;
     var settings = {
@@ -213,16 +213,18 @@ ejs.remotePager = function (params) {
             var action = it.action;
             var type = it.type;
             var filters = it.filters;
+            var isGroup = false;
 
             if (group) {
                 value = typeof it.value == "undefined" ? group.value : value;
                 property = typeof it.property == "undefined" ? group.property : property;
                 condition = typeof it.condition == "undefined" ? group.condition : condition;
                 operand = typeof it.operand == "undefined" && group.innerOperand ? group.innerOperand : operand;
+                type = typeof it.type == "undefined" && group.type ? group.type : type;
             }
 
             if (property.contains(",")) {
-                type = "group";
+                isGroup = true;
                 filters = property.split(",").select(function (p, i) {
                     var r = {
                         property: p,
@@ -241,9 +243,10 @@ ejs.remotePager = function (params) {
 
             var f = ejs.cwp(property, v, c, type, operand, action);
 
-            if (type == "group") {
+            if (isGroup) {
                 it.value = typeof it.value == "undefined" ? v : it.value;
                 f.SubParameters = getWhere(filters, it);
+                f.DataType = "Group";
             }
 
             result.push(f);
