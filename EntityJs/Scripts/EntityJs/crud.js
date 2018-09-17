@@ -1,4 +1,4 @@
-﻿/*-- File version 0.0.2.27 from 2015.07.23 --*/
+﻿/*-- File version 0.0.2.28 from 2018.09.17 --*/
 ejs.crud = function (options) {
     var me = this;
     var koModel = options.koModel;
@@ -205,7 +205,7 @@ ejs.crud = function (options) {
             e = { row: row, insert: wrapper[obsName].insert, edit: wrapper[obsName].edit };
             me.events.updated.raise(e);
             autoSave();
-	    if (typeof callback == "function") {
+            if (typeof callback == "function") {
                 callback(e);
             }
             return true;
@@ -597,7 +597,7 @@ ejs.crud = function (options) {
                 koFilter.condition.subscribe(apply);
             }
             koFilter.value.subscribe(apply);
-            
+
             me.events.cancelFilter.attach(function () {
                 koFilter.condition(getDefaultFilterCondition(it));
                 if (controlType == "select") {
@@ -1440,9 +1440,14 @@ ejs.crud.defaultEditor = function (options, override) {
 
     me.validate = function () {
         var row = options.wrapper[options.names.obsName]();
-        var e = { row: row };
+        var e = { row: row, result: true };
         var event = options.wrapper[options.names.crudName].events.validating;
         event.raise(e);
+
+        if (!e.result) {
+            return;
+        }
+
         event = options.wrapper[options.names.crudName].events.validated;
 
         if (options.tabs) {
@@ -1462,9 +1467,9 @@ ejs.crud.defaultEditor = function (options, override) {
             event.raise(e);
             return false;
         }
-        e.result = true;
+
         event.raise(e);
-        return true;
+        return e.result;
     };
 
     me.createDialogButtons = function () {
