@@ -1,4 +1,6 @@
-﻿/*-- File version 0.0.0.2 from 2016.08.28 --*/
+/*-- File version 0.0.0.3 from 2019.05.28 --*/
+"use strict";
+
 ejs.grid2 = function (options) {
     var me = this
     var uid = (new Date).getMilliseconds();
@@ -202,7 +204,7 @@ ejs.grid2 = function (options) {
     }
 
     function moveCol(tbl, dragIndex, dropIndex) {
-        var el = $(tbl);
+        var el = container.find(tbl);
         var tagName = el.get(0).tagName.toLowerCase();
         var isTemplate = false;
 
