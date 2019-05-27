@@ -1,10 +1,13 @@
-﻿/*-- File version 0.0.0.4 from 2016.02.21 --*/
+/*-- File version 0.0.0.5 from 2019.05.27 --*/
+"use strict";
+
 ejs.crud.grid2Renderer = function (options) {
     var me = this;
     var uid = (new Date).getMilliseconds();
     var rootPath = "$root";
     var showColumns = [];
     var showFilterName;
+    var container;
 
     function ctor() {
         me.options = options;
@@ -13,7 +16,7 @@ ejs.crud.grid2Renderer = function (options) {
 
         container = $(options.container);
         showColumns = options.columns.where("val=>!val.editOnly");
-        options.gridName = gridName = options.set.settings.name + "Grid";
+        options.gridName = options.gridName || options.set.settings.name + "Grid";
         showFilterName = "showFilter" + options.set.settings.name;
 
         if (options.wrap) {
@@ -73,7 +76,7 @@ ejs.crud.grid2Renderer = function (options) {
 
         var crud = options.wrapper[options.names.crudName];
         var pager = options.wrapper[options.names.pagerName];
-        var grid = options.wrapper[gridName] = new ejs.grid2({
+        var grid = options.wrapper[options.gridName] = new ejs.grid2({
             container: options.container,
             parentScroll: options.gridParentScroll,
             settingsName: options.gridSettingsName,
@@ -405,9 +408,8 @@ ejs.crud.grid2Renderer = function (options) {
         var size = pager.settings.pageSize;
         var fn = function () {
             ejs.openWindow(function (w) {
-                console.log("!!");
                 $(w.document).find("title").html($("title").html());
-                $(w.document).find("body").html(options.wrapper[gridName].print(onlySelected));
+                $(w.document).find("body").html(options.wrapper[options.gridName].print(onlySelected));
                 w.print();
                 if (!onlySelected || pager.settings.pageSize != size) {
                     pager.settings.pageSize = size;
