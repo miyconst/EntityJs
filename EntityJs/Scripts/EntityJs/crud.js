@@ -1,4 +1,6 @@
-﻿/*-- File version 0.0.2.28 from 2018.09.17 --*/
+﻿/*-- File version 0.0.2.29 from 2019.05.27 --*/
+"use strict";
+
 ejs.crud = function (options) {
     var me = this;
     var koModel = options.koModel;
@@ -53,7 +55,7 @@ ejs.crud = function (options) {
         cancelFilter: ejs.createEvent()
     };
 
-    ctor = function () {
+    var ctor = function () {
         options = $.extend(ejs.crud.getDefaultOptions(), options);
         options.crud = me;
         options.names = names;
