@@ -1,4 +1,4 @@
-/*-- File version 0.0.0.3 from 2019.05.28 --*/
+/*-- File version 0.0.0.4 from 2019.05.28 --*/
 "use strict";
 
 ejs.grid2 = function (options) {
@@ -226,7 +226,7 @@ ejs.grid2 = function (options) {
         });
 
         if (isTemplate) {
-            $(tbl).text(el.find("tbody").html());
+            container.find(tbl).text(el.find("tbody").html());
         }
     }
 
